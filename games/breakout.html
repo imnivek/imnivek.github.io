@@ -1,0 +1,54 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>打磚塊</title>
+<style>
+:root{--blue:#2563eb}
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{font-family:"Huninn","Noto Sans TC",system-ui,sans-serif;background:#eef4ff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:10px;user-select:none;touch-action:none}
+#bar{font-weight:900;color:var(--blue);font-size:14px}
+canvas{background:#fff;border-radius:12px;box-shadow:0 3px 10px rgba(0,0,0,.08);touch-action:none}
+#msg{position:fixed;inset:0;display:none;place-items:center;flex-direction:column;gap:10px;background:rgba(37,99,235,.92);color:#fff;font-weight:900;text-align:center}
+#msg.show{display:flex}
+#msg button{font-family:inherit;border:0;border-radius:999px;background:#fff;color:var(--blue);font-weight:900;padding:8px 18px;font-size:14px}
+</style></head><body>
+<div id="bar">🧱 分數 <b id="sc">0</b></div>
+<canvas id="cv" width="300" height="240"></canvas>
+<div style="font-size:12px;color:#64748b;font-weight:700">移動滑鼠／手指控制板子</div>
+<div id="msg"><div style="font-size:32px" id="mi">🎉</div><div id="mt"></div><button onclick="reset()">再玩一次</button></div>
+<script>
+var cv=document.getElementById('cv'),ctx=cv.getContext('2d'),W=cv.width,H=cv.height;
+var px,bx,by,vx,vy,bricks,sc,run,COLS=7,ROWS=4,bw,bh=14,pad=42,br=6;
+function reset(){
+ px=W/2-pad/2;bx=W/2;by=H-30;vx=2.2;vy=-2.6;sc=0;run=true;bw=(W-2)/COLS;
+ bricks=[];for(var r=0;r<ROWS;r++)for(var c=0;c<COLS;c++)bricks.push({c:c,r:r,a:1});
+ document.getElementById('sc').textContent=0;document.getElementById('msg').classList.remove('show');loop();
+}
+function loop(){if(!run)return;update();draw();requestAnimationFrame(loop)}
+function update(){
+ bx+=vx;by+=vy;
+ if(bx<br||bx>W-br)vx=-vx;
+ if(by<br)vy=-vy;
+ // paddle
+ if(by>H-22&&by<H-8&&bx>px&&bx<px+pad){vy=-Math.abs(vy);vx+=(bx-(px+pad/2))/14}
+ if(by>H){return lose()}
+ bricks.forEach(function(b){if(!b.a)return;var x=1+b.c*bw,y=30+b.r*(bh+5);
+   if(bx>x&&bx<x+bw-2&&by>y&&by<y+bh){b.a=0;vy=-vy;sc++;document.getElementById('sc').textContent=sc}});
+ if(bricks.every(function(b){return !b.a}))win();
+}
+function rr(x,y,w,h,r,col){ctx.fillStyle=col;ctx.beginPath();ctx.roundRect(x,y,w,h,r);ctx.fill()}
+function draw(){
+ ctx.clearRect(0,0,W,H);
+ var pal=['#93c5fd','#60a5fa','#3b82f6','#2563eb'];
+ bricks.forEach(function(b){if(!b.a)return;rr(1+b.c*bw,30+b.r*(bh+5),bw-2,bh,4,pal[b.r])});
+ rr(px,H-16,pad,9,5,'#1e3a8a');
+ ctx.fillStyle='#2563eb';ctx.beginPath();ctx.arc(bx,by,br,0,7);ctx.fill();
+}
+function win(){run=false;document.getElementById('mi').textContent='🏆';document.getElementById('mt').textContent='全部打掉！分數 '+sc;document.getElementById('msg').classList.add('show')}
+function lose(){run=false;document.getElementById('mi').textContent='💥';document.getElementById('mt').textContent='球掉了！分數 '+sc;document.getElementById('msg').classList.add('show')}
+function movePad(clientX){var r=cv.getBoundingClientRect();px=Math.max(0,Math.min(W-pad,(clientX-r.left)*(W/r.width)-pad/2))}
+cv.addEventListener('pointermove',function(e){movePad(e.clientX)});
+cv.addEventListener('touchmove',function(e){e.preventDefault();movePad(e.touches[0].clientX)},{passive:false});
+if(!CanvasRenderingContext2D.prototype.roundRect){CanvasRenderingContext2D.prototype.roundRect=function(x,y,w,h,r){this.moveTo(x+r,y);this.arcTo(x+w,y,x+w,y+h,r);this.arcTo(x+w,y+h,x,y+h,r);this.arcTo(x,y+h,x,y,r);this.arcTo(x,y,x+w,y,r);return this}}
+reset();
+</script></body></html>

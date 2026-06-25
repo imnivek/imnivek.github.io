@@ -1,0 +1,56 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>2048</title>
+<style>
+:root{--blue:#2563eb}
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{font-family:"Huninn","Noto Sans TC",system-ui,sans-serif;background:#eef4ff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:10px;user-select:none;touch-action:none}
+#bar{font-weight:900;color:var(--blue);font-size:14px;display:flex;gap:14px;align-items:center}
+#board{position:relative;background:#bcd0f5;border-radius:14px;padding:7px;display:grid;grid-template-columns:repeat(4,1fr);gap:7px;width:min(86vw,300px);aspect-ratio:1/1}
+.cell{background:#d7e3fb;border-radius:9px}
+.tile{position:absolute;display:grid;place-items:center;border-radius:9px;font-weight:900;color:#1e3a8a;transition:all .12s}
+button{font-family:inherit;font-weight:900;border:0;border-radius:999px;background:var(--blue);color:#fff;padding:6px 14px;font-size:12px;cursor:pointer}
+#over{position:absolute;inset:0;display:none;place-items:center;flex-direction:column;gap:8px;background:rgba(37,99,235,.9);color:#fff;font-weight:900;border-radius:14px}
+#over.show{display:flex}
+</style></head><body>
+<div id="bar"><span>分數 <b id="sc">0</b></span><button onclick="init()">新遊戲</button></div>
+<div id="board"><div id="over"><div id="ot">遊戲結束</div><button onclick="init()">再來</button></div></div>
+<div style="font-size:12px;color:#64748b;font-weight:700">⬆⬇⬅➡ 或滑動 ・ 湊出 2048</div>
+<script>
+var N=4,board=document.getElementById('board'),g,sc;
+var COL={2:'#dbeafe',4:'#bfdbfe',8:'#93c5fd',16:'#60a5fa',32:'#3b82f6',64:'#2563eb',128:'#1d4ed8',256:'#1e40af',512:'#1e3a8a',1024:'#172554',2048:'#fbbf24'};
+for(var i=0;i<16;i++){var c=document.createElement('div');c.className='cell';board.appendChild(c)}
+function init(){g=[];sc=0;for(var i=0;i<N;i++){g.push([0,0,0,0])}add();add();render();document.getElementById('over').classList.remove('show');document.getElementById('sc').textContent=0}
+function add(){var e=[];for(var r=0;r<N;r++)for(var c=0;c<N;c++)if(!g[r][c])e.push([r,c]);if(!e.length)return;var p=e[Math.floor(Math.random()*e.length)];g[p[0]][p[1]]=Math.random()<.9?2:4}
+function render(){
+  [].forEach.call(board.querySelectorAll('.tile'),function(t){t.remove()});
+  var bw=board.clientWidth-14,sz=(bw-21)/4;
+  for(var r=0;r<N;r++)for(var c=0;c<N;c++){if(!g[r][c])continue;var v=g[r][c];
+    var t=document.createElement('div');t.className='tile';t.textContent=v;
+    t.style.width=sz+'px';t.style.height=sz+'px';t.style.left=(7+c*(sz+7))+'px';t.style.top=(7+r*(sz+7))+'px';
+    t.style.background=COL[v]||'#fbbf24';t.style.color=v>=8?'#fff':'#1e3a8a';t.style.fontSize=(v>=1024?16:v>=128?20:24)+'px';
+    board.appendChild(t)}
+  document.getElementById('sc').textContent=sc;
+}
+function slide(row){var a=row.filter(function(x){return x});for(var i=0;i<a.length-1;i++){if(a[i]===a[i+1]){a[i]*=2;sc+=a[i];a.splice(i+1,1)}}while(a.length<N)a.push(0);return a}
+function rotate(m){var r=[];for(var c=0;c<N;c++){r.push([]);for(var i=N-1;i>=0;i--)r[c].push(m[i][c])}return r}
+function eq(a,b){return JSON.stringify(a)===JSON.stringify(b)}
+function move(dir){
+  var before=JSON.stringify(g),m=g.map(function(r){return r.slice()});
+  var k=dir;// 0 left 1 up 2 right 3 down
+  for(var i=0;i<k;i++)m=rotate(m);
+  m=m.map(slide);
+  for(var i=0;i<(4-k)%4;i++)m=rotate(m);
+  if(JSON.stringify(m)!==before){g=m;add();render();if(over())gameover()}
+}
+function over(){for(var r=0;r<N;r++)for(var c=0;c<N;c++){if(!g[r][c])return false;if(c<N-1&&g[r][c]===g[r][c+1])return false;if(r<N-1&&g[r][c]===g[r+1][c])return false}return true}
+function gameover(){document.getElementById('ot').textContent='結束！分數 '+sc;document.getElementById('over').classList.add('show')}
+document.addEventListener('keydown',function(e){var d={ArrowLeft:0,ArrowUp:1,ArrowRight:2,ArrowDown:3}[e.key];if(d!==undefined){e.preventDefault();move(d)}});
+var sx,sy;
+board.addEventListener('touchstart',function(e){sx=e.touches[0].clientX;sy=e.touches[0].clientY},{passive:true});
+board.addEventListener('touchend',function(e){if(sx==null)return;var dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;
+ if(Math.max(Math.abs(dx),Math.abs(dy))<24)return;
+ if(Math.abs(dx)>Math.abs(dy))move(dx>0?2:0);else move(dy>0?3:1);sx=null});
+init();window.addEventListener('resize',render);
+</script></body></html>

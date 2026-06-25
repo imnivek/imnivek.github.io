@@ -1,0 +1,55 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>貪吃蛇</title>
+<style>
+:root{--blue:#2563eb}
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{font-family:"Huninn","Noto Sans TC",system-ui,sans-serif;background:#eafaf0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:10px;user-select:none;touch-action:none}
+#bar{font-weight:900;color:var(--blue);font-size:14px}
+canvas{background:#fff;border-radius:12px;box-shadow:0 3px 10px rgba(0,0,0,.08);touch-action:none}
+#pad{display:grid;grid-template-columns:repeat(3,40px);grid-template-rows:repeat(3,40px);gap:4px;margin-top:2px}
+#pad button{font-family:inherit;border:0;border-radius:10px;background:#dcefe4;color:var(--blue);font-weight:900;font-size:16px}
+#pad .sp{visibility:hidden}
+#over{position:fixed;inset:0;display:none;place-items:center;flex-direction:column;gap:10px;background:rgba(37,99,235,.92);color:#fff;font-weight:900;text-align:center}
+#over.show{display:flex}
+#over button{font-family:inherit;border:0;border-radius:999px;background:#fff;color:var(--blue);font-weight:900;padding:8px 18px;font-size:14px}
+</style></head><body>
+<div id="bar">🍎 分數 <b id="sc">0</b></div>
+<canvas id="cv" width="280" height="280"></canvas>
+<div id="pad">
+ <button class="sp"></button><button data-d="U">▲</button><button class="sp"></button>
+ <button data-d="L">◀</button><button class="sp"></button><button data-d="R">▶</button>
+ <button class="sp"></button><button data-d="D">▼</button><button class="sp"></button>
+</div>
+<div id="over"><div style="font-size:34px">🐍</div><div id="ot"></div><button onclick="reset()">再玩一次</button></div>
+<script>
+var cv=document.getElementById('cv'),ctx=cv.getContext('2d'),G=14,CS=cv.width/G;
+var snake,dir,nd,food,sc,loop,alive;
+function reset(){snake=[{x:7,y:7},{x:6,y:7},{x:5,y:7}];dir={x:1,y:0};nd=dir;sc=0;alive=true;
+ document.getElementById('sc').textContent=0;document.getElementById('over').classList.remove('show');placeFood();
+ clearInterval(loop);loop=setInterval(step,140);draw()}
+function placeFood(){do{food={x:Math.floor(Math.random()*G),y:Math.floor(Math.random()*G)}}while(snake.some(function(s){return s.x===food.x&&s.y===food.y}))}
+function step(){
+ dir=nd;var h={x:snake[0].x+dir.x,y:snake[0].y+dir.y};
+ if(h.x<0||h.y<0||h.x>=G||h.y>=G||snake.some(function(s){return s.x===h.x&&s.y===h.y})){return die()}
+ snake.unshift(h);
+ if(h.x===food.x&&h.y===food.y){sc++;document.getElementById('sc').textContent=sc;placeFood()}else snake.pop();
+ draw();
+}
+function rr(x,y,c){ctx.fillStyle=c;ctx.beginPath();ctx.roundRect(x*CS+1,y*CS+1,CS-2,CS-2,5);ctx.fill()}
+function draw(){
+ ctx.clearRect(0,0,cv.width,cv.height);
+ ctx.font=(CS-2)+'px serif';ctx.textAlign='center';ctx.textBaseline='middle';
+ ctx.fillText('🍎',food.x*CS+CS/2,food.y*CS+CS/2+1);
+ snake.forEach(function(s,i){rr(s.x,s.y,i===0?'#2563eb':'#60a5fa')});
+}
+function die(){alive=false;clearInterval(loop);document.getElementById('ot').textContent='撞到了！分數 '+sc;document.getElementById('over').classList.add('show')}
+function turn(d){var map={U:{x:0,y:-1},D:{x:0,y:1},L:{x:-1,y:0},R:{x:1,y:0}}[d];if(!map)return;if(map.x===-dir.x&&map.y===-dir.y)return;nd=map}
+document.addEventListener('keydown',function(e){var k={ArrowUp:'U',ArrowDown:'D',ArrowLeft:'L',ArrowRight:'R'}[e.key];if(k){e.preventDefault();turn(k)}});
+[].forEach.call(document.querySelectorAll('#pad button[data-d]'),function(b){b.onpointerdown=function(){turn(b.dataset.d)}});
+var sx,sy;cv.addEventListener('touchstart',function(e){sx=e.touches[0].clientX;sy=e.touches[0].clientY},{passive:true});
+cv.addEventListener('touchend',function(e){if(sx==null)return;var dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;if(Math.max(Math.abs(dx),Math.abs(dy))<18)return;if(Math.abs(dx)>Math.abs(dy))turn(dx>0?'R':'L');else turn(dy>0?'D':'U');sx=null});
+if(!CanvasRenderingContext2D.prototype.roundRect){CanvasRenderingContext2D.prototype.roundRect=function(x,y,w,h,r){this.moveTo(x+r,y);this.arcTo(x+w,y,x+w,y+h,r);this.arcTo(x+w,y+h,x,y+h,r);this.arcTo(x,y+h,x,y,r);this.arcTo(x,y,x+w,y,r);return this}}
+reset();
+</script></body></html>

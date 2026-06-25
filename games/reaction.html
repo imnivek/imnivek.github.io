@@ -1,0 +1,29 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>反應力大考驗</title>
+<style>
+:root{--blue:#2563eb}
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{font-family:"Huninn","Noto Sans TC",system-ui,sans-serif;user-select:none}
+#stage{position:fixed;inset:0;display:grid;place-items:center;text-align:center;color:#fff;font-weight:900;cursor:pointer;transition:background .1s;background:#2563eb;padding:16px}
+#stage.wait{background:#ef4444}#stage.go{background:#22c55e}#stage.result{background:#2563eb}
+#big{font-size:24px;line-height:1.4}#sub{margin-top:8px;font-size:14px;opacity:.9}
+</style></head><body>
+<div id="stage"><div><div id="big">🟢 反應力大考驗</div><div id="sub">點一下開始，變綠色就馬上點！</div></div></div>
+<script>
+var st=document.getElementById('stage'),big=document.getElementById('big'),sub=document.getElementById('sub');
+var state='idle',t0,timer,best=null;
+function setS(s){state=s;st.className=s==='wait'?'wait':s==='go'?'go':s==='result'?'result':''}
+st.addEventListener('pointerdown',function(){
+  if(state==='idle'||state==='result'){
+    setS('wait');big.textContent='等待…';sub.textContent='看到綠色再點！別偷跑';
+    timer=setTimeout(function(){setS('go');big.textContent='點！';sub.textContent='';t0=Date.now()},900+Math.random()*1800);
+  }else if(state==='wait'){
+    clearTimeout(timer);setS('result');big.textContent='太早了！😅';sub.textContent='等變綠色再點，點一下重來';
+  }else if(state==='go'){
+    var ms=Date.now()-t0;if(best===null||ms<best)best=ms;
+    setS('result');big.textContent=ms+' 毫秒';sub.textContent='最佳 '+best+' ms ・ 點一下再試';
+  }
+});
+</script></body></html>
