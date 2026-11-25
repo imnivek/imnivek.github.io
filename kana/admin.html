@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kana 後台｜預約管理</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%2715%27 fill=%27%23D8CDC0%27/%3E%3Ctext x=%2716%27 y=%2722%27 text-anchor=%27middle%27 font-family=%27Georgia%27 font-style=%27italic%27 font-size=%2717%27 fill=%27%234E3F35%27%3EK%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,400&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#EFEBE5;--paper-2:#E7E0D7;--sand:#D8CDC0;--taupe:#A6978A;--mocha:#7E6A5C;--cocoa:#4E3F35;--ink:#352B25;--ink-2:#6B5C52;--ink-3:#9A8C82;--glow:#FFFDF8;--hair:rgba(53,43,37,.12);--ok:#6F8F72;--warn:#B98A4E;--bad:#A5473A;--line:#06C755;
+  --latin:"Cormorant Garamond",serif;--sans:"Noto Sans TC",system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-weight:300;font-size:14px;-webkit-font-smoothing:antialiased;letter-spacing:.02em}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+a{color:inherit;text-decoration:none}
+.app{display:grid;grid-template-columns:230px 1fr 320px;min-height:100vh}
+aside.side{background:var(--ink);color:#CFC3B9;padding:26px 18px;display:flex;flex-direction:column;gap:6px}
+.brand{display:flex;align-items:center;gap:12px;margin:0 8px 30px}
+.brand i{width:38px;height:38px;border-radius:50%;background:radial-gradient(circle at 35% 30%,var(--glow),var(--sand) 60%,var(--taupe));display:grid;place-items:center;font-family:var(--latin);font-style:italic;font-size:20px;color:var(--cocoa)}
+.brand b{font-family:var(--latin);font-weight:400;font-size:21px;letter-spacing:.16em;color:var(--glow);display:block;line-height:1.1}
+.brand small{font-size:11px;letter-spacing:.3em}
+.side a{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:999px;letter-spacing:.14em;transition:.3s}
+.side a span{width:8px;height:8px;border-radius:50%;border:1px solid currentColor}
+.side a.on,.side a:hover{background:rgba(255,253,248,.08);color:var(--glow)}
+.side a.on span{background:var(--sand);border-color:var(--sand)}
+.side .who{margin-top:auto;display:flex;gap:10px;align-items:center;padding:12px;border-top:1px solid rgba(255,255,255,.08)}
+.side .who i{width:34px;height:34px;border-radius:50%;background:var(--taupe);display:grid;place-items:center;font-style:normal;color:var(--glow)}
+.side .who small{display:block;font-size:11px;color:#8E8076;letter-spacing:.2em}
+main{padding:28px 30px;min-width:0}
+.top{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:24px}
+.top h1{font-weight:400;font-size:24px;letter-spacing:.2em}
+.top h1 small{display:block;font-family:var(--latin);font-style:italic;font-size:16px;letter-spacing:.1em;color:var(--ink-3)}
+.seg{display:flex;background:var(--paper-2);border-radius:999px;padding:4px}
+.seg button{padding:7px 16px;border-radius:999px;font-size:13px;letter-spacing:.14em}
+.seg button.on{background:var(--glow);box-shadow:0 2px 8px -4px rgba(0,0,0,.2)}
+.add{background:var(--ink);color:var(--glow);border-radius:999px;padding:9px 18px;letter-spacing:.18em;font-size:13px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}
+.kpi{background:var(--glow);border-radius:22px;padding:18px 20px;display:flex;align-items:center;gap:16px;border:1px solid var(--hair)}
+.kpi .ring{width:58px;height:58px;flex:0 0 auto;position:relative}
+.kpi .ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.kpi .ring circle{fill:none;stroke-width:4}
+.kpi .ring .bg{stroke:var(--paper-2)}
+.kpi .ring .fg{stroke:var(--mocha);stroke-linecap:round;transition:stroke-dashoffset 1.6s cubic-bezier(.2,.7,.2,1)}
+.kpi .ring b{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--latin);font-size:20px}
+.kpi small{display:block;color:var(--ink-3);font-size:12px;letter-spacing:.2em}
+.kpi strong{font-weight:400;font-size:15px;letter-spacing:.08em}
+.cal{background:var(--glow);border-radius:24px;border:1px solid var(--hair);overflow:hidden}
+.cal-head,.cal-row{display:grid;grid-template-columns:64px repeat(6,1fr)}
+.cal-head div{padding:14px 10px;text-align:center;font-size:12px;letter-spacing:.2em;color:var(--ink-3);border-bottom:1px solid var(--hair)}
+.cal-head div b{display:block;font-family:var(--latin);font-weight:400;font-size:24px;color:var(--ink);letter-spacing:0}
+.cal-head div.today b{width:38px;height:38px;line-height:38px;border-radius:50%;background:var(--mocha);color:var(--glow);margin:2px auto 0}
+.cal-body{position:relative;max-height:560px;overflow-y:auto}
+.cal-row{height:56px}
+.cal-row>div{border-bottom:1px dashed var(--hair);border-left:1px solid var(--hair);position:relative}
+.cal-row>div:first-child{border-left:0;font-family:var(--latin);font-size:14px;color:var(--ink-3);text-align:right;padding:2px 10px 0 0}
+.appt{position:absolute;left:5px;right:5px;border-radius:14px;padding:6px 10px;font-size:12px;line-height:1.45;cursor:pointer;z-index:2;transition:transform .3s, box-shadow .3s;border-left:3px solid;overflow:hidden;animation:pop .6s cubic-bezier(.2,.7,.2,1) both}
+.appt:hover{transform:translateY(-2px);box-shadow:0 10px 24px -12px rgba(53,43,37,.4)}
+.appt b{font-weight:500;display:block}
+.appt.ok{background:#E9EEE7;border-color:var(--ok)}
+.appt.wait{background:#F4EBDD;border-color:var(--warn)}
+.appt.done{background:var(--paper-2);border-color:var(--taupe);color:var(--ink-2)}
+.appt.no{background:#F3E2DE;border-color:var(--bad)}
+.appt.sel{box-shadow:0 0 0 2px var(--ink)}
+@keyframes pop{from{opacity:0;transform:scale(.94)}}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--ink-2);margin:14px 4px 0;letter-spacing:.1em}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:-1px}
+aside.panel{border-left:1px solid var(--hair);background:var(--paper-2);padding:28px 24px;display:flex;flex-direction:column;gap:22px}
+.panel h3{font-weight:400;font-size:13px;letter-spacing:.3em;color:var(--ink-3)}
+.card{background:var(--glow);border-radius:22px;padding:20px;border:1px solid var(--hair)}
+.who-c{display:flex;gap:14px;align-items:center;margin-bottom:14px}
+.who-c i{width:48px;height:48px;border-radius:50%;background:radial-gradient(circle at 35% 30%,var(--glow),var(--sand) 60%,var(--taupe));display:grid;place-items:center;font-style:normal;font-size:18px;color:var(--cocoa)}
+.who-c b{font-weight:500;font-size:16px;display:block}
+.who-c small{color:var(--ink-3);font-size:12px}
+.dl{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:13px}
+.dl dt{color:var(--ink-3)}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chips span{font-size:11.5px;border:1px solid var(--taupe);border-radius:999px;padding:2px 10px}
+.acts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:16px}
+.acts button{border:1px solid var(--hair);border-radius:999px;padding:8px;font-size:12.5px;letter-spacing:.1em;background:var(--paper)}
+.acts button.pri{background:var(--ink);color:var(--glow);border-color:var(--ink)}
+.todo li{list-style:none;display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px dashed var(--hair);font-size:13px}
+.todo li:last-child{border:0}
+.todo select{font:inherit;font-size:12px;border:1px solid var(--hair);border-radius:999px;padding:4px 8px;background:var(--paper)}
+.note{font-family:ui-monospace,Menlo,monospace;font-size:11px;color:var(--mocha);border:1px dashed var(--taupe);border-radius:999px;padding:3px 10px;display:inline-block}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,120%);background:var(--ink);color:var(--glow);padding:11px 20px;border-radius:999px;font-size:13px;letter-spacing:.1em;transition:transform .5s cubic-bezier(.2,.7,.2,1);z-index:50}
+.toast.on{transform:translate(-50%,0)}
+@media (max-width:1200px){.app{grid-template-columns:200px 1fr}aside.panel{grid-column:1/-1;border-left:0;border-top:1px solid var(--hair);display:grid;grid-template-columns:1fr 1fr}aside.panel>h3{grid-column:1/-1}}
+@media (max-width:800px){.app{grid-template-columns:1fr}aside.side{flex-direction:row;overflow-x:auto;padding:14px;gap:4px;align-items:center}.brand{margin:0 10px 0 0}.brand div{display:none}.side .who{display:none}.side a{white-space:nowrap}
+  main{padding:20px 16px}.kpis{grid-template-columns:1fr 1fr}.cal{overflow-x:auto}.cal-head,.cal-row{min-width:640px}aside.panel{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="side">
+    <div class="brand"><i>K</i><div><b>KANA</b><small>團隊後台</small></div></div>
+    <a class="on" href="#"><span></span>預約行事曆</a>
+    <a href="#"><span></span>客人資料</a>
+    <a href="#"><span></span>醫師排班</a>
+    <a href="#"><span></span>陪診員</a>
+    <a href="#"><span></span>LINE 推播</a>
+    <a href="#"><span></span>數據</a>
+    <a href="index.html"><span></span>← 回官網</a>
+    <div class="who"><i>貝</i><div>貝果<small>主理人・全部權限</small></div></div>
+  </aside>
+
+  <main>
+    <div class="top">
+      <h1>預約行事曆<small>Appointments</small></h1>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+        <div class="seg" id="seg"><button>日</button><button class="on">週</button><button>月</button></div>
+        <button class="add" onclick="toast('手動新增：LINE 對話來的客人也能補登')">＋ 新增預約</button>
+      </div>
+    </div>
+    <div class="kpis" id="kpis"></div>
+    <div class="cal">
+      <div class="cal-head" id="calHead"></div>
+      <div class="cal-body" id="calBody"></div>
+    </div>
+    <div class="legend"><span><i style="background:var(--ok)"></i>已確認</span><span><i style="background:var(--warn)"></i>待確認</span><span><i style="background:var(--taupe)"></i>已報到</span><span><i style="background:var(--bad)"></i>爽約</span><span class="note">示意資料・非真實客人</span></div>
+  </main>
+
+  <aside class="panel">
+    <h3>預約詳情</h3>
+    <div class="card" id="detail"></div>
+    <h3>待指派陪診</h3>
+    <div class="card"><ul class="todo" id="todo"></ul></div>
+  </aside>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const W="日一二三四五六",days=[],base=new Date();base.setDate(base.getDate()-((base.getDay()+6)%7)+1);
+for(let i=0;i<6;i++){const d=new Date(base);d.setDate(base.getDate()+i);days.push(d)}
+const isToday=d=>d.toDateString()===new Date().toDateString();
+document.getElementById("calHead").innerHTML="<div></div>"+days.map(d=>`<div class="${isToday(d)?"today":""}">週${W[d.getDay()]}<b>${d.getDate()}</b></div>`).join("");
+const HOURS=[11,12,13,14,15,16,17,18,19,20];
+const body=document.getElementById("calBody");
+body.innerHTML=HOURS.map(h=>`<div class="cal-row"><div>${h}:00</div>${days.map((_,i)=>`<div data-d="${i}" data-h="${h}"></div>`).join("")}</div>`).join("");
+const A=[
+ {d:0,h:11,m:0,dur:1,n:"王小姐",z:["淚溝"],doc:"醫師 A",esc:"小安",s:"ok",first:true},
+ {d:0,h:14,m:30,dur:1,n:"林小姐",z:["全臉規劃"],doc:"不指定",esc:null,s:"wait",first:true},
+ {d:1,h:13,m:30,dur:1,n:"陳小姐",z:["蘋果肌","法令紋"],doc:"醫師 B",esc:"小晴",s:"ok"},
+ {d:1,h:16,m:0,dur:1,n:"張小姐",z:["鼻"],doc:"醫師 A",esc:null,s:"wait",first:true},
+ {d:2,h:11,m:30,dur:1,n:"黃小姐",z:["眼窩／C 框"],doc:"醫師 A",esc:"小安",s:"done"},
+ {d:2,h:15,m:0,dur:1,n:"吳小姐",z:["淚溝"],doc:"醫師 B",esc:"小晴",s:"no"},
+ {d:3,h:14,m:0,dur:1,n:"蔡小姐",z:["法令紋"],doc:"不指定",esc:"小安",s:"ok"},
+ {d:3,h:19,m:0,dur:1,n:"劉小姐",z:["全臉規劃"],doc:"醫師 A",esc:null,s:"wait",first:true},
+ {d:4,h:13,m:30,dur:1,n:"鄭小姐",z:["蘋果肌"],doc:"醫師 B",esc:"小晴",s:"ok"},
+ {d:5,h:11,m:0,dur:1,n:"許小姐",z:["淚溝","眼窩／C 框"],doc:"醫師 A",esc:"小安",s:"ok"},
+ {d:5,h:16,m:30,dur:1,n:"謝小姐",z:["鼻"],doc:"不指定",esc:null,s:"wait",first:true}];
+const SN={ok:"已確認",wait:"待確認",done:"已報到",no:"爽約"};
+let sel=0;
+function render(){document.querySelectorAll(".appt").forEach(e=>e.remove());
+  A.forEach((a,i)=>{const cell=body.querySelector(`[data-d="${a.d}"][data-h="${a.h}"]`);const el=document.createElement("div");
+    el.className=`appt ${a.s} ${i===sel?"sel":""}`;el.style.top=(a.m/60*56+3)+"px";el.style.height=(a.dur*56-6)+"px";el.style.animationDelay=(i*60)+"ms";
+    el.innerHTML=`<b>${a.n}${a.first?"・初診":""}</b>${a.h}:${String(a.m).padStart(2,"0")}｜${a.z.join("、")}`;el.onclick=()=>{sel=i;render();detail()};cell.appendChild(el)});
+  kpis();todo()}
+function detail(){const a=A[sel];document.getElementById("detail").innerHTML=`
+  <div class="who-c"><i>${a.n[0]}</i><div><b>${a.n}</b><small>${a.first?"第一次諮詢":"熟客・第 3 次預約"}｜LINE 已綁定</small></div></div>
+  <dl class="dl"><dt>時間</dt><dd>週${W[days[a.d].getDay()]} ${days[a.d].getMonth()+1}/${days[a.d].getDate()} ${a.h}:${String(a.m).padStart(2,"0")}</dd>
+  <dt>部位</dt><dd><div class="chips">${a.z.map(z=>`<span>${z}</span>`).join("")}</div></dd><dt>醫師</dt><dd>${a.doc}</dd>
+  <dt>陪診員</dt><dd>${a.esc||"<span style='color:var(--bad)'>尚未指派</span>"}</dd><dt>狀態</dt><dd>${SN[a.s]}</dd>
+  <dt>提醒</dt><dd>前一晚 20:00 LINE 自動推播</dd></dl>
+  <div class="acts"><button class="pri" onclick="setS('ok')">確認</button><button onclick="setS('done')">報到</button><button onclick="toast('已傳送改期連結到客人 LINE')">改期</button><button onclick="setS('no')">標記爽約</button></div>`}
+function setS(s){A[sel].s=s;render();detail();toast(`狀態更新為「${SN[s]}」`)}
+function todo(){const l=A.map((a,i)=>({a,i})).filter(x=>!x.a.esc);document.getElementById("todo").innerHTML=l.length?l.map(({a,i})=>`<li><span>${a.n}・週${W[days[a.d].getDay()]} ${a.h}:${String(a.m).padStart(2,"0")}</span><select onchange="assign(${i},this.value)"><option value="">指派</option><option>小安</option><option>小晴</option></select></li>`).join(""):"<li>全部都安排好了 ✦</li>"}
+function assign(i,v){if(!v)return;A[i].esc=v;render();if(i===sel)detail();toast(`已指派 ${v}，並通知客人`)}
+function kpis(){const tot=A.length,ok=A.filter(a=>a.s==="ok"||a.s==="done").length,no=A.filter(a=>a.s==="no").length,esc=A.filter(a=>a.esc).length,first=A.filter(a=>a.first).length;
+  const K=[["本週預約",tot,`${tot} 筆`,1],["已確認",ok,`${Math.round(ok/tot*100)}%`,ok/tot],["陪診已指派",esc,`${esc}/${tot}`,esc/tot],["初診客",first,`${first} 位`,first/tot]];
+  const C=2*Math.PI*25;document.getElementById("kpis").innerHTML=K.map(([l,v,t,p])=>`<div class="kpi"><div class="ring"><svg viewBox="0 0 58 58"><circle class="bg" cx="29" cy="29" r="25"/><circle class="fg" cx="29" cy="29" r="25" stroke-dasharray="${C}" stroke-dashoffset="${C*(1-p)}"/></svg><b>${v}</b></div><div><small>${l}</small><strong>${t}</strong></div></div>`).join("")}
+let tt;function toast(m){const t=document.getElementById("toast");t.textContent=m;t.classList.add("on");clearTimeout(tt);tt=setTimeout(()=>t.classList.remove("on"),2200)}
+document.querySelectorAll("#seg button").forEach(b=>b.onclick=()=>{document.querySelectorAll("#seg button").forEach(x=>x.classList.remove("on"));b.classList.add("on");if(b.textContent!=="週")toast("提案原型先示範週檢視")});
+render();detail();
+</script>
+</body>
+</html>

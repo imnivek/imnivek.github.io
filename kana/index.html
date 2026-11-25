@@ -1,0 +1,716 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kana 楷娜｜顏值規劃與陪診團隊</title>
+<meta name="description" content="楷娜官網提案原型：先規劃，再決定。顏值規劃、診間陪診與 LINE 線上預約。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%2715%27 fill=%27%23D8CDC0%27/%3E%3Ctext x=%2716%27 y=%2722%27 text-anchor=%27middle%27 font-family=%27Georgia%27 font-style=%27italic%27 font-size=%2717%27 fill=%27%234E3F35%27%3EK%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Sans+TC:wght@300;400;500&family=Noto+Serif+TC:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#EFEBE5; --paper-2:#E7E0D7; --sand:#D8CDC0; --taupe:#A6978A; --mocha:#7E6A5C; --cocoa:#4E3F35; --ink:#352B25;
+  --ink-2:#6B5C52; --ink-3:#9A8C82; --glow:#FFFDF8; --line:#06C755;
+  --hair:rgba(53,43,37,.14); --glass:rgba(255,253,248,.55);
+  --serif:"Noto Serif TC",serif; --sans:"Noto Sans TC",system-ui,sans-serif; --latin:"Cormorant Garamond",serif;
+  --ease:cubic-bezier(.2,.7,.2,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-weight:300;line-height:1.85;-webkit-font-smoothing:antialiased;overflow-x:hidden;letter-spacing:.02em}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:200;opacity:.5;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .3 0 0 0 0 .26 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+img{display:block;max-width:100%}
+.wrap{width:min(1200px,100% - 40px);margin-inline:auto}
+
+/* ── type ── */
+.en{font-family:var(--latin);font-weight:300;letter-spacing:.06em}
+.kicker{display:inline-flex;align-items:center;gap:14px;font-family:var(--latin);font-size:19px;letter-spacing:.14em;color:var(--mocha)}
+.kicker::before{content:"";width:9px;height:9px;border-radius:50%;border:1px solid currentColor}
+.h2{font-family:var(--serif);font-weight:400;font-size:clamp(30px,4.2vw,52px);line-height:1.38;letter-spacing:.08em;margin-top:18px}
+.lead{color:var(--ink-2);font-size:16.5px;max-width:32em;letter-spacing:.06em}
+.wide{letter-spacing:.32em}
+.tag-demo{font-family:ui-monospace,Menlo,monospace;font-size:11px;color:var(--mocha);border:1px dashed var(--taupe);border-radius:999px;padding:3px 10px;display:inline-block;letter-spacing:.02em}
+
+/* ── pills & buttons (reference: taupe pills, wide tracking) ── */
+.pill{display:inline-flex;align-items:center;justify-content:center;gap:12px;padding:15px 34px;border-radius:999px;background:var(--taupe);color:var(--glow);font-size:15px;letter-spacing:.32em;font-weight:400;transition:background .5s var(--ease),transform .5s var(--ease),box-shadow .5s;position:relative;overflow:hidden}
+.pill::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.45),transparent);transform:skewX(-20deg);transition:left .9s var(--ease)}
+.pill:hover{background:var(--mocha);transform:translateY(-2px);box-shadow:0 18px 40px -18px rgba(78,63,53,.6)}
+.pill:hover::after{left:120%}
+.pill-line{background:transparent;color:var(--ink);border:1px solid var(--taupe)}
+.pill-line:hover{background:var(--glow);color:var(--ink)}
+.pill-ghost{background:rgba(255,253,248,.18);border:1px solid rgba(255,253,248,.5)}
+
+/* ── orbit (signature: thin ellipse + sparkle) ── */
+.orbit{position:absolute;pointer-events:none;overflow:visible}
+.orbit ellipse{fill:none;stroke:currentColor;stroke-width:.8;vector-effect:non-scaling-stroke}
+.spark{fill:currentColor;transform-box:fill-box;transform-origin:center;animation:twinkle 3.6s ease-in-out infinite}
+@keyframes twinkle{0%,100%{opacity:.95;transform:scale(1) rotate(0)}50%{opacity:.35;transform:scale(.55) rotate(45deg)}}
+.spin{transform-box:fill-box;transform-origin:center;animation:spin 60s linear infinite}
+.spin.rev{animation-direction:reverse;animation-duration:90s}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ── reveal ── */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity 1.2s var(--ease),transform 1.2s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+.split .ch{display:inline-block;white-space:pre;opacity:0;transform:translateY(.6em);filter:blur(6px);transition:opacity .9s var(--ease),transform .9s var(--ease),filter .9s var(--ease)}
+.split.in .ch{opacity:1;transform:none;filter:none}
+
+/* ── header ── */
+header{position:fixed;top:0;left:0;right:0;z-index:80;transition:background .5s,backdrop-filter .5s,border-color .5s;border-bottom:1px solid transparent}
+header.scrolled{background:rgba(239,235,229,.78);backdrop-filter:blur(18px) saturate(1.2);border-color:var(--hair)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:82px}
+.logo{display:flex;align-items:center;gap:14px;position:relative}
+.logo-mark{width:46px;height:46px;position:relative;flex:0 0 auto}
+.logo-mark .disc{position:absolute;inset:7px;border-radius:50%;background:radial-gradient(circle at 35% 30%,var(--glow),var(--sand) 60%,var(--taupe));}
+.logo-mark svg{position:absolute;inset:-6px;width:58px;height:58px;color:var(--mocha)}
+.logo-mark b{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--latin);font-style:italic;font-weight:400;font-size:24px;color:var(--cocoa)}
+.logo-txt{line-height:1.2}
+.logo-txt b{display:block;font-family:var(--latin);font-weight:400;font-size:25px;letter-spacing:.16em}
+.logo-txt span{font-size:11.5px;letter-spacing:.42em;color:var(--ink-2)}
+.nav ul{display:flex;gap:36px;list-style:none;font-size:14px;letter-spacing:.2em;color:var(--ink-2)}
+.nav ul a{position:relative}
+.nav ul a::after{content:"";position:absolute;left:50%;bottom:-6px;width:5px;height:5px;border-radius:50%;background:var(--mocha);transform:translateX(-50%) scale(0);transition:transform .4s var(--ease)}
+.nav ul a:hover::after{transform:translateX(-50%) scale(1)}
+.nav .pill{padding:11px 24px;font-size:13px}
+@media (max-width:960px){.nav ul{display:none}.logo-txt span{display:none}}
+
+/* ── hero ── */
+.hero{position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:center;padding:120px 0 80px;overflow:hidden}
+#gl{position:absolute;inset:0;width:100%;height:100%;z-index:0;background:radial-gradient(60% 60% at 75% 40%,var(--glow),var(--paper) 60%,var(--paper-2))}
+.hero-grid{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+.hero h1{font-family:var(--serif);font-weight:300;font-size:clamp(50px,7.6vw,104px);line-height:1.18;letter-spacing:.14em;margin:26px 0 30px}
+.hero h1 .en-sub{display:block;font-family:var(--latin);font-style:italic;font-size:.3em;letter-spacing:.1em;color:var(--mocha);margin-top:14px;line-height:1.3}
+.hero-cta{display:flex;gap:14px;flex-wrap:wrap;margin-top:40px}
+.clinic-pills{display:flex;flex-wrap:wrap;gap:10px;margin-top:44px}
+.clinic-pills span{font-size:12.5px;letter-spacing:.22em;padding:8px 18px;border-radius:999px;background:rgba(166,151,138,.18);color:var(--ink-2);border:1px solid rgba(166,151,138,.35)}
+.stage{position:relative;aspect-ratio:1;width:min(560px,100%);margin-left:auto}
+.disc-img{position:absolute;inset:11%;border-radius:50%;overflow:hidden;background:radial-gradient(circle at 40% 35%,var(--glow),var(--sand) 60%,var(--taupe));box-shadow:0 60px 120px -50px rgba(78,63,53,.55), inset 0 0 0 1px rgba(255,255,255,.4)}
+.disc-img img{width:100%;height:100%;object-fit:cover;transform:scale(1.08);transition:transform 2.5s var(--ease)}
+.disc-img::after{content:"";position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 30% 20%,rgba(255,255,255,.45),transparent 45%),radial-gradient(circle at 70% 90%,rgba(78,63,53,.25),transparent 55%);mix-blend-mode:soft-light}
+.stage .orbit{inset:0;width:100%;height:100%;color:var(--mocha)}
+.glass{position:absolute;z-index:3;background:var(--glass);backdrop-filter:blur(16px) saturate(1.3);-webkit-backdrop-filter:blur(16px) saturate(1.3);border:1px solid rgba(255,255,255,.7);border-radius:999px;padding:12px 22px 12px 14px;display:flex;align-items:center;gap:12px;font-size:13.5px;letter-spacing:.08em;box-shadow:0 20px 50px -24px rgba(78,63,53,.45);animation:float 7s ease-in-out infinite}
+.glass i{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--glow);font-style:normal;color:var(--mocha);font-family:var(--latin);font-size:18px;flex:0 0 auto}
+.glass small{display:block;color:var(--ink-3);font-size:11px;letter-spacing:.2em}
+.glass .live{width:7px;height:7px;border-radius:50%;background:var(--line);display:inline-block;margin-right:6px;box-shadow:0 0 0 4px rgba(6,199,85,.15);vertical-align:middle}
+.g1{left:-4%;top:18%}
+.g2{right:-2%;bottom:14%;animation-delay:-3.5s}
+@keyframes float{50%{transform:translateY(-12px)}}
+.scroll-cue{position:absolute;right:36px;bottom:28px;z-index:3;display:flex;flex-direction:column;align-items:center;gap:10px;font-family:var(--latin);font-size:13px;letter-spacing:.3em;color:var(--ink-3)}
+.scroll-cue i{width:1px;height:46px;background:linear-gradient(var(--ink-3),transparent);animation:cue 2.4s var(--ease) infinite;transform-origin:top}
+@keyframes cue{0%{transform:scaleY(0)}50%{transform:scaleY(1)}100%{transform:scaleY(1);opacity:0}}
+@media (max-width:960px){.hero-grid{grid-template-columns:1fr}.stage{margin:10px auto 0;width:min(420px,100%)}.g1{left:0}.g2{right:0}.scroll-cue{display:none}}
+
+/* ── three portals (reference homage) ── */
+.portals{display:grid;grid-template-columns:repeat(3,1fr);height:min(78vh,640px);border-block:1px solid var(--hair)}
+.portal{position:relative;overflow:hidden;display:flex;align-items:flex-end;padding:0 0 18% 9%;color:var(--glow);isolation:isolate;border-right:1px solid rgba(255,255,255,.35)}
+.portal:last-child{border-right:0}
+.portal .bg{position:absolute;inset:-4%;z-index:-2;background-size:cover;background-position:center;transition:transform 2s var(--ease),filter 1.2s;filter:saturate(.85)}
+.portal::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(78,63,53,.05) 20%,rgba(78,63,53,.55))}
+.portal h3,.portal .en{text-shadow:0 2px 24px rgba(53,43,37,.45)}
+.portal:hover .bg{transform:scale(1.06);filter:saturate(1)}
+.portal .lab{position:relative}
+.portal h3{font-family:var(--sans);font-weight:400;font-size:clamp(24px,2.6vw,34px);letter-spacing:.32em}
+.portal .en{display:block;font-size:clamp(17px,1.6vw,22px);margin:6px 0 0 3.2em;letter-spacing:.1em}
+.portal .orbit{left:-8%;top:-10%;width:118%;height:150%;color:rgba(255,253,248,.85)}
+.portal .orbit ellipse{transition:transform 1.4s var(--ease);transform-box:fill-box;transform-origin:center}
+.portal:hover .orbit ellipse{transform:rotate(-8deg) scale(1.06)}
+.portal .num{position:absolute;top:28px;left:9%;font-family:var(--latin);font-size:15px;letter-spacing:.3em;opacity:.85}
+@media (max-width:860px){.portals{grid-template-columns:1fr;height:auto}.portal{height:300px;border-right:0;border-bottom:1px solid rgba(255,255,255,.35)}}
+
+section{padding:140px 0;position:relative}
+.sec-head{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:end;margin-bottom:70px}
+@media (max-width:900px){.sec-head{grid-template-columns:1fr;gap:24px}section{padding:100px 0}}
+
+/* ── services: three circles ── */
+.svc{display:grid;grid-template-columns:repeat(3,1fr);gap:40px}
+.svc article{text-align:center;padding:0 10px}
+.svc .ring{position:relative;width:min(240px,70vw);aspect-ratio:1;margin:0 auto 34px;border-radius:50%;display:grid;place-items:center;
+  background:radial-gradient(circle at 38% 30%,var(--glow),var(--paper-2) 62%,var(--sand));box-shadow:0 40px 80px -40px rgba(78,63,53,.45)}
+.svc .ring .orbit{inset:-14%;width:128%;height:128%;color:var(--taupe)}
+.svc .ring b{font-family:var(--latin);font-weight:300;font-size:76px;line-height:1;color:var(--mocha)}
+.svc .ring small{position:absolute;bottom:22%;font-family:var(--latin);font-style:italic;letter-spacing:.2em;color:var(--ink-3);font-size:15px}
+.svc h3{font-family:var(--serif);font-weight:400;font-size:25px;letter-spacing:.3em}
+.svc p{color:var(--ink-2);font-size:15px;margin:12px auto 0;max-width:19em}
+.svc ul{list-style:none;margin-top:20px;font-size:13.5px;color:var(--ink-2);letter-spacing:.12em}
+.svc li{padding:3px 0}
+.svc li::before{content:"✦";color:var(--taupe);margin-right:8px;font-size:10px;vertical-align:2px}
+@media (max-width:900px){.svc{grid-template-columns:1fr;gap:70px}}
+
+/* ── face map ── */
+.map{color:var(--glow);background:var(--cocoa);overflow:hidden;isolation:isolate}
+.map .bgimg{position:absolute;inset:0;z-index:-1;background-size:cover;background-position:center;opacity:.9}
+.map::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(53,43,37,.82),rgba(53,43,37,.35))}
+.map .kicker{color:var(--sand)}
+.map-grid{display:grid;grid-template-columns:.95fr 1.05fr;gap:70px;align-items:center}
+.face{position:relative;max-width:470px;width:100%;margin:0 auto;aspect-ratio:4/5}
+.face>svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.face .stroke{stroke:#EADFD4;fill:none;stroke-width:1.2;stroke-linecap:round}
+.face .draw{stroke-dasharray:1400;stroke-dashoffset:1400;transition:stroke-dashoffset 3.2s var(--ease)}
+.face.in .draw{stroke-dashoffset:0}
+.face .halo{fill:none;stroke:rgba(234,223,212,.25);stroke-width:1}
+.spot{cursor:pointer;outline:none}
+.spot .dot{fill:var(--sand);transition:fill .3s}
+.spot .ring1{fill:none;stroke:var(--sand);stroke-width:1;transform-box:fill-box;transform-origin:center;animation:ping 2.8s ease-out infinite}
+.spot text{fill:#EADFD4;font-size:12px;font-family:var(--sans);letter-spacing:.24em;opacity:.8;transition:opacity .3s}
+.spot.on .dot{fill:#fff}
+.spot.on text,.spot:focus-visible text{opacity:1}
+@keyframes ping{0%{transform:scale(.6);opacity:1}100%{transform:scale(2.8);opacity:0}}
+.focus-ring{fill:none;stroke:#fff;stroke-width:.8;transition:all .9s var(--ease)}
+.zones{display:flex;flex-wrap:wrap;gap:10px;margin:34px 0 28px}
+.zones button{padding:9px 20px;border-radius:999px;border:1px solid rgba(234,223,212,.35);font-size:13.5px;letter-spacing:.2em;color:#EADFD4;transition:.4s var(--ease)}
+.zones button.on,.zones button:hover{background:var(--glow);color:var(--ink);border-color:var(--glow)}
+.zone-card{position:relative;background:rgba(255,253,248,.07);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(255,253,248,.18);border-radius:28px;padding:36px;min-height:360px}
+.zone-card .zi{animation:zin .7s var(--ease)}
+@keyframes zin{from{opacity:0;transform:translateY(12px)}}
+.zone-card h3{font-family:var(--serif);font-weight:400;font-size:32px;letter-spacing:.24em}
+.zone-card .sub{font-family:var(--latin);font-style:italic;color:var(--sand);font-size:18px;letter-spacing:.14em}
+.zone-cols{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin:24px 0}
+.zone-cols h4{font-size:12px;font-weight:400;letter-spacing:.3em;color:#BBA999;margin-bottom:8px}
+.zone-cols ul{list-style:none;font-size:14.5px;color:#EFE6DD}
+.zone-cols li{padding:3px 0}
+.zone-q{border-top:1px solid rgba(255,253,248,.16);padding-top:20px;font-size:15px;color:#EFE6DD}
+.zone-q b{display:block;font-weight:400;font-size:12px;letter-spacing:.3em;color:#BBA999;margin-bottom:6px}
+.zone-foot{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-top:26px;flex-wrap:wrap}
+.zone-foot small{color:#BBA999;font-size:12px;letter-spacing:.1em}
+@media (max-width:960px){.map-grid{grid-template-columns:1fr}.zone-cols{grid-template-columns:1fr}.face{max-width:360px}}
+
+/* ── day: orbit timeline ── */
+.day-wrap{display:grid;grid-template-columns:.9fr 1.1fr;gap:80px;align-items:start}
+.day-visual{position:sticky;top:120px;aspect-ratio:1;border-radius:50%;overflow:hidden;background:var(--sand)}
+.day-visual img{width:100%;height:100%;object-fit:cover}
+.day-visual .orbit{inset:0;width:100%;height:100%;color:var(--glow)}
+.day-visual .clock{position:absolute;inset:0;display:grid;place-items:center;text-align:center;color:var(--glow);text-shadow:0 2px 30px rgba(53,43,37,.5)}
+.day-visual .clock b{display:block;font-family:var(--latin);font-weight:300;font-size:clamp(52px,7vw,92px);line-height:1;letter-spacing:.04em;transition:opacity .4s}
+.day-visual .clock span{font-size:14px;letter-spacing:.4em}
+.timeline{list-style:none;position:relative;padding-left:46px}
+.timeline::before{content:"";position:absolute;left:11px;top:8px;bottom:8px;width:1px;background:var(--hair)}
+.timeline .fill{position:absolute;left:11px;top:8px;width:1px;background:var(--mocha);height:0;transition:height .2s linear}
+.timeline li{position:relative;padding:6px 0 46px}
+.timeline li::before{content:"";position:absolute;left:-46px;top:12px;width:23px;height:23px;border-radius:50%;border:1px solid var(--taupe);background:var(--paper);transition:.5s var(--ease)}
+.timeline li::after{content:"";position:absolute;left:-39px;top:19px;width:9px;height:9px;border-radius:50%;background:var(--taupe);transform:scale(0);transition:.5s var(--ease)}
+.timeline li.act::before{border-color:var(--mocha);box-shadow:0 0 0 6px rgba(166,151,138,.18)}
+.timeline li.act::after{transform:scale(1);background:var(--mocha)}
+.timeline .t{font-family:var(--latin);font-size:20px;letter-spacing:.12em;color:var(--mocha)}
+.timeline h4{font-family:var(--serif);font-weight:400;font-size:22px;letter-spacing:.18em;margin:2px 0 6px}
+.timeline p{color:var(--ink-2);font-size:15px;max-width:30em}
+@media (max-width:900px){.day-wrap{grid-template-columns:1fr;gap:50px}.day-visual{position:relative;top:0;max-width:380px;width:100%;margin:0 auto}}
+
+/* ── founder ── */
+.founder{display:grid;grid-template-columns:.85fr 1.15fr;gap:90px;align-items:center}
+.portrait{position:relative;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 38% 30%,var(--glow),var(--sand) 58%,var(--taupe));display:grid;place-items:center;color:var(--cocoa);font-size:12px;letter-spacing:.4em}
+.portrait .orbit{inset:-12%;width:124%;height:124%;color:var(--taupe)}
+.quote{font-family:var(--serif);font-weight:300;font-size:clamp(24px,2.9vw,36px);line-height:1.75;letter-spacing:.12em;margin:26px 0 30px}
+.sign{font-family:var(--latin);font-style:italic;font-size:34px;letter-spacing:.06em}
+.sign small{display:block;font-family:var(--sans);font-style:normal;font-size:12.5px;color:var(--ink-3);letter-spacing:.34em}
+@media (max-width:900px){.founder{grid-template-columns:1fr;gap:60px}.portrait{max-width:300px;width:80%;margin:0 auto}}
+
+/* ── booking ── */
+.book{background:linear-gradient(180deg,rgba(239,235,229,.92),rgba(231,224,215,.75)),url(assets/light.jpg) center/cover;overflow:hidden}
+.book-grid{display:grid;grid-template-columns:1fr 420px;gap:80px;align-items:center}
+.feat{list-style:none;margin-top:44px;display:grid;gap:26px}
+.feat li{display:grid;grid-template-columns:54px 1fr;gap:18px;align-items:center}
+.feat .ic{width:54px;height:54px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--taupe);color:var(--mocha);font-family:var(--latin);font-size:20px;position:relative}
+.feat .ic::after{content:"";position:absolute;inset:-6px;border-radius:50%;border:1px dashed rgba(166,151,138,.4)}
+.feat b{font-weight:400;font-size:16.5px;letter-spacing:.14em;display:block}
+.feat span{font-size:14px;color:var(--ink-2)}
+.phone-stage{position:relative;display:grid;place-items:center;min-width:0}
+.phone-stage .bigdisc{position:absolute;width:150%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,var(--glow) 0%,rgba(255,253,248,0) 62%);z-index:0}
+.phone-stage .orbit{width:150%;height:150%;color:var(--taupe);z-index:0}
+.phone{position:relative;z-index:1;width:100%;max-width:420px;min-width:0;background:#2b2420;border-radius:54px;padding:11px;box-shadow:0 60px 100px -40px rgba(53,43,37,.6),inset 0 0 0 1px rgba(255,255,255,.08)}
+.screen{background:#fff;border-radius:44px;overflow:hidden;height:780px;display:flex;flex-direction:column;position:relative}
+.liff-top{background:var(--line);color:#fff;padding:44px 22px 13px;font-size:14px;display:flex;justify-content:space-between;align-items:center}
+.liff-top b{font-weight:500;letter-spacing:.06em}
+.prog{display:flex;gap:6px;padding:18px 22px 4px}
+.prog i{flex:1;height:3px;border-radius:3px;background:#eee;transition:background .5s}
+.prog i.on{background:var(--mocha)}
+.step{display:none;padding:14px 22px 20px;flex:1;overflow-y:auto}
+.step.on{display:block;animation:stepin .55s var(--ease)}
+@keyframes stepin{from{opacity:0;transform:translateX(18px)}}
+.step h5{font-family:var(--serif);font-weight:500;font-size:22px;letter-spacing:.1em;margin-bottom:2px}
+.step .hint{font-size:13px;color:var(--ink-3);margin-bottom:16px}
+.chips{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.chip{aspect-ratio:1.5;border-radius:20px;border:1px solid #e8e1da;font-size:14px;letter-spacing:.1em;transition:.3s var(--ease);background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
+.chip i{width:26px;height:26px;border-radius:50%;border:1px solid var(--taupe);display:block;position:relative;transition:.3s}
+.chip i::after{content:"";position:absolute;inset:5px;border-radius:50%;background:var(--mocha);transform:scale(0);transition:.3s var(--ease)}
+.chip.on{background:var(--paper);border-color:var(--mocha)}
+.chip.on i::after{transform:scale(1)}
+.opt{display:flex;align-items:center;gap:12px;width:100%;text-align:left;border:1px solid #e8e1da;border-radius:16px;padding:13px 16px;margin-bottom:8px;font-size:14.5px;transition:.3s}
+.opt .rad{width:18px;height:18px;border-radius:50%;border:1px solid var(--taupe);flex:0 0 auto;position:relative}
+.opt .rad::after{content:"";position:absolute;inset:3px;border-radius:50%;background:var(--mocha);transform:scale(0);transition:.3s var(--ease)}
+.opt small{display:block;color:var(--ink-3);font-size:12px}
+.opt.on{border-color:var(--mocha);background:var(--paper)}
+.opt.on .rad::after{transform:scale(1)}
+.label{font-size:11.5px;letter-spacing:.3em;color:var(--ink-3);margin:18px 0 8px}
+.dates{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 8px;scrollbar-width:none}
+.dates::-webkit-scrollbar{display:none}
+.date{flex:0 0 54px;aspect-ratio:.8;border:1px solid #e8e1da;border-radius:999px;font-size:11px;color:var(--ink-3);display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.3;transition:.3s}
+.date b{display:block;font-size:18px;color:var(--ink);font-weight:500}
+.date.on{background:var(--mocha);border-color:var(--mocha);color:#efe6dd}
+.date.on b{color:#fff}
+.date:disabled{opacity:.3;cursor:not-allowed}
+.slots{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.slot{border:1px solid #e8e1da;border-radius:999px;padding:9px 0;font-size:14px;transition:.3s}
+.slot.on{background:var(--mocha);color:#fff;border-color:var(--mocha)}
+.slot:disabled{color:#cfc6bf;text-decoration:line-through;cursor:not-allowed}
+.field{margin-bottom:12px}
+.field input{width:100%;border:1px solid #e8e1da;border-radius:16px;padding:13px 16px;font:inherit;font-size:15px;background:#fff}
+.field input:focus{outline:2px solid var(--sand);border-color:transparent}
+.switch{display:flex;justify-content:space-between;align-items:center;border:1px solid #e8e1da;border-radius:16px;padding:13px 16px;font-size:14.5px}
+.switch small{display:block;color:var(--ink-3);font-size:12px}
+.tg{width:46px;height:26px;border-radius:20px;background:#ddd;position:relative;transition:.3s;flex:0 0 auto}
+.tg::after{content:"";position:absolute;width:22px;height:22px;border-radius:50%;background:#fff;top:2px;left:2px;transition:.3s var(--ease);box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.tg.on{background:var(--line)}
+.tg.on::after{left:22px}
+.consent{display:flex;gap:10px;font-size:12.5px;color:var(--ink-2);margin-top:14px;align-items:flex-start;line-height:1.6}
+.consent input{margin-top:3px;accent-color:var(--mocha)}
+.bar{padding:14px 22px 28px;border-top:1px solid #f1ebe5;display:flex;gap:10px;background:#fff}
+.bar button{flex:1;padding:14px;border-radius:999px;font-weight:400;font-size:15px;letter-spacing:.2em}
+.bar .back{flex:0 0 86px;border:1px solid #e8e1da;letter-spacing:.05em}
+.bar .next{background:var(--ink);color:#fff}
+.err{color:#a5473a;font-size:12.5px;min-height:18px;margin-top:8px}
+.chat{background:#8CABD9;flex:1;padding:20px 16px;display:none;flex-direction:column;gap:10px;overflow-y:auto}
+.chat.on{display:flex}
+.bubble{background:#fff;border-radius:20px;padding:14px 16px;font-size:13.5px;max-width:92%;line-height:1.65;animation:stepin .5s both}
+.bubble h6{font-size:15px;font-weight:500;margin-bottom:6px}
+.bubble dl{display:grid;grid-template-columns:auto 1fr;gap:2px 12px;font-size:13px}
+.bubble dt{color:var(--ink-3)}
+.bubble .acts{display:flex;gap:6px;margin-top:12px}
+.bubble .acts span{flex:1;text-align:center;border:1px solid #e8e1da;border-radius:999px;padding:7px;font-size:12.5px;color:#05a648;font-weight:500}
+.bubble.b2{animation-delay:.7s}
+.restart{margin-top:auto;align-self:center;background:rgba(255,255,255,.88);border-radius:999px;padding:8px 18px;font-size:12.5px}
+@media (max-width:1000px){.book-grid{grid-template-columns:1fr}.phone-stage{max-width:420px;width:100%;margin:0 auto}}
+@media (max-width:460px){.phone{padding:0;background:none;box-shadow:none}.screen{border-radius:28px;height:740px;border:1px solid var(--hair)}.chips{gap:8px}}
+
+/* ── faq ── */
+.faq-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:80px}
+details{border-bottom:1px solid var(--hair);padding:26px 0}
+summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:20px;font-family:var(--serif);font-size:19px;font-weight:400;letter-spacing:.14em}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"";flex:0 0 30px;height:30px;border-radius:50%;border:1px solid var(--taupe);background:linear-gradient(var(--mocha),var(--mocha)) center/10px 1px no-repeat,linear-gradient(var(--mocha),var(--mocha)) center/1px 10px no-repeat;transition:transform .5s var(--ease)}
+details[open] summary::after{transform:rotate(135deg)}
+details p{color:var(--ink-2);margin-top:12px;font-size:15.5px;max-width:38em}
+@media (max-width:900px){.faq-grid{grid-template-columns:1fr;gap:30px}}
+
+/* ── final ── */
+.final{position:relative;min-height:88vh;display:grid;place-items:center;text-align:center;overflow:hidden;isolation:isolate;color:var(--ink)}
+.final .bg{position:absolute;inset:0;z-index:-2;background-size:cover;background-position:center;background-color:var(--sand)}
+.final::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(circle at center,rgba(239,235,229,.75),rgba(239,235,229,.15) 60%)}
+.final .cta-disc{position:relative;width:min(640px,92vw);aspect-ratio:1;border-radius:50%;display:grid;place-items:center;padding:9%}
+.final .cta-disc>div{width:100%}
+.final .cta-disc .orbit{inset:0;width:100%;height:100%;color:var(--mocha)}
+.final .h2{font-size:clamp(26px,3.8vw,50px);letter-spacing:.12em;white-space:nowrap}
+.final .lead{margin:16px auto 34px}
+
+footer{background:var(--ink);color:#BFB1A6;padding:80px 0 40px;font-size:14px}
+.foot-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:40px}
+footer .logo-txt b{color:var(--glow)}
+footer .logo-txt span{color:#BFB1A6;display:inline}
+footer h6{font-size:11.5px;letter-spacing:.34em;color:#8E8076;font-weight:400;margin-bottom:12px}
+.disclaimer{margin-top:56px;padding-top:26px;border-top:1px solid rgba(255,255,255,.1);font-size:12.5px;color:#8E8076;line-height:1.95}
+@media (max-width:800px){.foot-grid{grid-template-columns:1fr}}
+
+#cursor{position:fixed;left:0;top:0;width:340px;height:340px;margin:-170px 0 0 -170px;border-radius:50%;pointer-events:none;z-index:1;background:radial-gradient(circle,rgba(255,253,248,.55),rgba(255,253,248,0) 65%);mix-blend-mode:soft-light;transition:opacity .4s}
+.proto{position:fixed;left:16px;bottom:16px;z-index:90;background:var(--glass);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.7);border-radius:999px;padding:8px 8px 8px 14px;font-size:12.5px;box-shadow:0 10px 30px -14px rgba(0,0,0,.3);display:flex;gap:10px;align-items:center}
+.proto a{background:var(--ink);color:var(--glow);border-radius:999px;padding:5px 12px;letter-spacing:.1em}
+@media (hover:none){#cursor{display:none}}
+@media (max-width:600px){.proto span{display:none}.proto{padding:6px;left:auto;right:12px;bottom:12px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal,.split .ch{opacity:1;transform:none;filter:none}.face .draw{stroke-dashoffset:0}}
+</style>
+</head>
+<body>
+<div id="cursor" aria-hidden="true"></div>
+
+<!-- reusable orbit symbol -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="star" viewBox="-10 -10 20 20"><path d="M0-10C.6-2.2 2.2-.6 10 0 2.2.6.6 2.2 0 10-.6 2.2-2.2.6-10 0-2.2-.6-.6-2.2 0-10Z"/></symbol>
+  </defs>
+</svg>
+
+<header id="hdr">
+  <div class="wrap nav">
+    <a class="logo" href="#top" aria-label="Kana 楷娜 首頁">
+      <span class="logo-mark"><span class="disc"></span>
+        <svg viewBox="0 0 58 58" aria-hidden="true"><ellipse cx="29" cy="29" rx="27" ry="12" transform="rotate(-24 29 29)" fill="none" stroke="currentColor" stroke-width=".8"/><use href="#star" x="44" y="9" width="9" height="9" fill="currentColor" class="spark"/></svg>
+        <b>K</b></span>
+      <span class="logo-txt"><b>KANA</b><span>楷娜｜顏值規劃・陪診</span></span>
+    </a>
+    <ul>
+      <li><a href="#services">服務</a></li>
+      <li><a href="#map">部位地圖</a></li>
+      <li><a href="#day">陪診的一天</a></li>
+      <li><a href="#founder">主理人</a></li>
+      <li><a href="#faq">第一次</a></li>
+    </ul>
+    <a class="pill" href="#book">預約諮詢</a>
+  </div>
+</header>
+
+<main id="top">
+<!-- HERO -->
+<section class="hero">
+  <canvas id="gl" aria-hidden="true"></canvas>
+  <div class="wrap hero-grid">
+    <div>
+      <div class="kicker reveal">Beauty planning, with company</div>
+      <h1 class="split">先規劃，<br>再決定。<span class="en-sub">Plan first, then decide.</span></h1>
+      <p class="lead reveal">楷娜是一支顏值規劃與陪診團隊。走進診間之前，我們陪你把想法、疑問和顧慮整理清楚；諮詢的時候，我們就坐在你旁邊。</p>
+      <div class="hero-cta reveal">
+        <a class="pill" href="#book">線上預約諮詢</a>
+        <a class="pill pill-line" href="#day">陪診怎麼進行</a>
+      </div>
+      <div class="clinic-pills reveal">
+        <span>合作診所｜緹爾思醫美診所</span><span>捷運忠孝敦化站 5 號出口</span>
+      </div>
+    </div>
+    <div class="stage reveal" id="stage">
+      <div class="disc-img"><img src="assets/hero.jpg" alt="" onerror="this.remove()"></div>
+      <svg class="orbit" viewBox="0 0 560 560" aria-hidden="true">
+        <g class="spin"><ellipse cx="280" cy="280" rx="272" ry="118" transform="rotate(-22 280 280)"/></g>
+        <g class="spin rev"><ellipse cx="280" cy="280" rx="250" ry="250" stroke-dasharray="2 7" opacity=".55"/></g>
+        <g class="spin" style="animation-duration:120s"><ellipse cx="280" cy="280" rx="200" ry="276" transform="rotate(30 280 280)" opacity=".5"/>
+          <use href="#star" x="438" y="58" width="22" height="22" class="spark"/></g>
+        <use href="#star" x="40" y="356" width="14" height="14" class="spark" style="animation-delay:-1.8s"/>
+      </svg>
+      <div class="glass g1"><i>◷</i><div><small>LINE 線上預約</small><span class="live"></span>週四 14:30 還有空位</div></div>
+      <div class="glass g2"><i>✦</i><div><small>YOUR COMPANION</small>陪診員已安排，前一晚提醒你</div></div>
+    </div>
+  </div>
+  <div class="scroll-cue"><span>SCROLL</span><i></i></div>
+</section>
+
+<!-- THREE PORTALS -->
+<div class="portals">
+  <a class="portal" href="#map"><div class="bg" style="background-image:url(assets/map.jpg),linear-gradient(160deg,#7E6A5C,#4E3F35)"></div><span class="num">01</span>
+    <div class="lab"><svg class="orbit" viewBox="0 0 300 160" preserveAspectRatio="none"><ellipse cx="150" cy="85" rx="140" ry="58"/><use href="#star" x="214" y="16" width="26" height="26" class="spark"/></svg>
+      <h3>部位地圖</h3><span class="en">Face Map</span></div></a>
+  <a class="portal" href="#day"><div class="bg" style="background-image:url(assets/consult.jpg),linear-gradient(160deg,#DCD2C6,#B8A797)"></div><span class="num">02</span>
+    <div class="lab"><svg class="orbit" viewBox="0 0 300 160" preserveAspectRatio="none"><ellipse cx="150" cy="85" rx="140" ry="58"/><use href="#star" x="214" y="16" width="26" height="26" class="spark" style="animation-delay:-1.2s"/></svg>
+      <h3>陪診服務</h3><span class="en">Companion Visit</span></div></a>
+  <a class="portal" href="#book"><div class="bg" style="background-image:url(assets/cta.jpg),linear-gradient(160deg,#D8CDC0,#A6978A)"></div><span class="num">03</span>
+    <div class="lab"><svg class="orbit" viewBox="0 0 300 160" preserveAspectRatio="none"><ellipse cx="150" cy="85" rx="140" ry="58"/><use href="#star" x="214" y="16" width="26" height="26" class="spark" style="animation-delay:-2.4s"/></svg>
+      <h3>線上預約</h3><span class="en">Online Booking</span></div></a>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="reveal"><div class="kicker">What we do</div><h2 class="h2">我們不賣療程，<br>我們陪你做決定。</h2></div>
+      <p class="lead reveal">醫師負責醫療，楷娜負責「人」。從第一個疑問，到諮詢後的每一天，你都有人可以問。</p>
+    </div>
+    <div class="svc">
+      <article class="reveal"><div class="ring"><svg class="orbit" viewBox="0 0 300 300"><g class="spin"><ellipse cx="150" cy="150" rx="146" ry="60" transform="rotate(-20 150 150)"/><use href="#star" x="250" y="70" width="16" height="16" class="spark"/></g></svg><b>01</b><small>Planning</small></div>
+        <h3>顏值規劃</h3><p>先聊你在意什麼、想成為什麼樣的自己，再一起整理成諮詢時要問醫師的清單。</p>
+        <ul><li>在意的部位與優先順序</li><li>預算與時間的安排</li><li>諮詢前的問題清單</li></ul></article>
+      <article class="reveal" style="transition-delay:.15s"><div class="ring"><svg class="orbit" viewBox="0 0 300 300"><g class="spin rev"><ellipse cx="150" cy="150" rx="146" ry="60" transform="rotate(25 150 150)"/><use href="#star" x="34" y="72" width="16" height="16" class="spark"/></g></svg><b>02</b><small>Companion</small></div>
+        <h3>診間陪診</h3><p>諮詢當天，陪診員在診所等你，陪你聽醫師說明、幫你記下重點，不懂的當場問。</p>
+        <ul><li>在診所門口等你</li><li>諮詢時幫你做筆記</li><li>結束後一起整理重點</li></ul></article>
+      <article class="reveal" style="transition-delay:.3s"><div class="ring"><svg class="orbit" viewBox="0 0 300 300"><g class="spin" style="animation-duration:75s"><ellipse cx="150" cy="150" rx="60" ry="146" transform="rotate(-35 150 150)"/><use href="#star" x="196" y="20" width="16" height="16" class="spark"/></g></svg><b>03</b><small>Aftercare</small></div>
+        <h3>回訪關心</h3><p>回家後還有疑問，LINE 找得到人。我們記得你上次說的話，下次不用從頭講起。</p>
+        <ul><li>諮詢後的追蹤關心</li><li>回診時間提醒</li><li>熟客一鍵再約</li></ul></article>
+    </div>
+  </div>
+</section>
+
+<!-- FACE MAP -->
+<section id="map" class="map">
+  <div class="bgimg" style="background-image:url(assets/map.jpg)"></div>
+  <div class="wrap map-grid">
+    <div class="face reveal" id="face">
+      <svg viewBox="0 0 400 500" role="img" aria-label="臉部部位地圖">
+        <circle class="halo" cx="200" cy="250" r="230"/><circle class="halo" cx="200" cy="250" r="190" stroke-dasharray="2 6"/>
+        <g class="stroke">
+          <path class="draw" d="M200 52C292 52 322 135 320 222C318 318 276 410 200 440C124 410 82 318 80 222C78 135 108 52 200 52Z"/>
+          <path class="draw" d="M118 200Q150 184 182 194M218 194Q250 184 282 200"/>
+          <path class="draw" d="M124 228Q152 212 180 228Q152 238 124 228ZM220 228Q248 212 276 228Q248 238 220 228Z"/>
+          <path class="draw" d="M198 230C196 262 191 286 185 300Q200 311 215 300"/>
+          <path class="draw" d="M170 350Q186 340 200 346Q214 340 230 350Q200 368 170 350Z"/>
+          <path d="M176 310Q160 330 166 354M224 310Q240 330 234 354" stroke-dasharray="3 5" opacity=".5"/>
+        </g>
+        <circle class="focus-ring" id="focusRing" cx="150" cy="248" r="34"/>
+      </svg>
+    </div>
+    <div>
+      <div class="kicker reveal">Face Map</div>
+      <h2 class="h2 reveal">點一個你在意的地方，<br>先看懂，再去問。</h2>
+      <div class="zones reveal" id="zones"></div>
+      <div class="zone-card reveal" id="zoneCard" aria-live="polite"></div>
+    </div>
+  </div>
+</section>
+
+<!-- DAY -->
+<section id="day">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="reveal"><div class="kicker">A day with Kana</div><h2 class="h2">第一次去諮詢的那天，<br>你不是一個人。</h2></div>
+      <p class="lead reveal">我們把陪診拆成六個時刻。每一個，都是第一次的人最容易緊張、也最容易放棄的地方。</p>
+    </div>
+    <div class="day-wrap">
+      <div class="day-visual reveal">
+        <img src="assets/consult.jpg" alt="" onerror="this.remove()">
+        <svg class="orbit" viewBox="0 0 400 400"><g class="spin"><ellipse cx="200" cy="200" rx="186" ry="186" stroke-dasharray="1 8"/></g><ellipse cx="200" cy="200" rx="170" ry="70" transform="rotate(-18 200 200)" opacity=".7"/><use href="#star" x="326" y="110" width="18" height="18" class="spark"/></svg>
+        <div class="clock"><div><b id="clockT">D-1</b><span id="clockL">前一晚</span></div></div>
+      </div>
+      <ol class="timeline" id="timeline">
+        <span class="fill" id="tlFill"></span>
+        <li data-t="D-1" data-l="前一晚"><div class="t">D-1　20:00</div><h4>前一晚的提醒</h4><p>LINE 收到時間、地點和陪診員的名字，還有一句「有問題，現在就可以問」。</p></li>
+        <li data-t="14:15" data-l="抵達"><div class="t">14:15</div><h4>在門口等你</h4><p>陪診員先到。第一次走進醫美診所，不用自己推開那扇門。</p></li>
+        <li data-t="14:30" data-l="諮詢"><div class="t">14:30</div><h4>一起見醫師</h4><p>醫師評估、說明選項。陪診員幫你記重點，提醒你把清單上的問題問完。</p></li>
+        <li data-t="15:10" data-l="整理"><div class="t">15:10</div><h4>不急著決定</h4><p>諮詢結束後，一起把醫師說的話再整理一次。想回家想清楚，完全可以。</p></li>
+        <li data-t="D+1" data-l="回家後"><div class="t">D+1</div><h4>回家後的關心</h4><p>有任何疑問，或想再確認的地方，傳 LINE 就找得到人。</p></li>
+        <li data-t="Next" data-l="下一次"><div class="t">Next</div><h4>我們記得你</h4><p>上次在意的部位、習慣的時段都記下來了，下次預約不用從頭說起。</p></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- FOUNDER -->
+<section id="founder" style="padding-top:60px">
+  <div class="wrap founder">
+    <div class="portrait reveal"><svg class="orbit" viewBox="0 0 300 300"><g class="spin rev"><ellipse cx="150" cy="150" rx="146" ry="64" transform="rotate(-28 150 150)"/><use href="#star" x="236" y="48" width="18" height="18" class="spark"/></g></svg>主理人照片</div>
+    <div>
+      <div class="kicker reveal">From the founder</div>
+      <p class="quote split">第一次走進診所的人，最需要的不是優惠，是有人陪她把問題問完。</p>
+      <p class="lead reveal">貝果在醫美現場工作超過十年。她看過太多人因為緊張、因為不好意思，帶著一肚子疑問離開診間。楷娜就是為了這件事成立的：讓每一次決定，都是想清楚之後的決定。</p>
+      <p class="sign reveal" style="margin-top:34px">Bagel<small>楷娜主理人　貝果</small></p>
+      <p class="reveal" style="margin-top:18px"><span class="tag-demo">提案示意文案・待主理人確認</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING -->
+<section id="book" class="book">
+  <div class="wrap book-grid">
+    <div>
+      <div class="kicker reveal">Online Booking</div>
+      <h2 class="h2 reveal">不用等回覆，<br>三分鐘約好諮詢。</h2>
+      <p class="lead reveal" style="margin-top:18px">在 LINE 裡直接完成，不用另外註冊。右邊就是實際的預約流程，可以直接操作看看。</p>
+      <ul class="feat reveal">
+        <li><div class="ic">◷</div><div><b>只看得到真的有空的時段</b><span>醫師排班即時同步，不會約了才被通知要改時間。</span></div></li>
+        <li><div class="ic">✉</div><div><b>前一晚自動在 LINE 提醒你</b><span>時間、地點、陪診員是誰，一則訊息講清楚。</span></div></li>
+        <li><div class="ic">↺</div><div><b>想改期，自己就能改</b><span>不用不好意思開口，按一下就好。</span></div></li>
+        <li><div class="ic">✦</div><div><b>熟客一鍵再約</b><span>上次的醫師、在意的部位，都幫你記著。</span></div></li>
+      </ul>
+    </div>
+    <div class="phone-stage reveal">
+      <div class="bigdisc"></div>
+      <svg class="orbit" viewBox="0 0 600 600" style="position:absolute"><g class="spin" style="animation-duration:100s"><ellipse cx="300" cy="300" rx="296" ry="140" transform="rotate(-30 300 300)"/><use href="#star" x="520" y="120" width="24" height="24" class="spark"/></g><ellipse cx="300" cy="300" rx="260" ry="260" stroke-dasharray="1 8" opacity=".6"/></svg>
+      <div class="phone" aria-label="LINE 預約流程示範">
+        <div class="screen">
+          <div class="liff-top"><b>Kana 楷娜｜預約諮詢</b><span>✕</span></div>
+          <div class="prog" id="prog"><i class="on"></i><i></i><i></i><i></i></div>
+          <div class="step on" data-step="1"><h5>想先聊聊哪裡？</h5><p class="hint">可以複選，還沒想好也沒關係。</p><div class="chips" id="bkZones"></div><div class="err" id="e1"></div></div>
+          <div class="step" data-step="2"><h5>選擇門診</h5><p class="hint">諮詢在合作診所進行，由醫師親自評估。</p>
+            <div class="label">地點</div><div id="bkLoc"></div><div class="label">醫師</div><div id="bkDoc"></div><div class="err" id="e2"></div></div>
+          <div class="step" data-step="3"><h5>選擇時間</h5><p class="hint">只顯示目前可以預約的時段。</p>
+            <div class="label">日期</div><div class="dates" id="bkDates"></div><div class="label">時段</div><div class="slots" id="bkSlots"></div><div class="err" id="e3"></div></div>
+          <div class="step" data-step="4"><h5>最後一步</h5><p class="hint">我們只收預約需要的資料。</p>
+            <div class="field"><input id="fName" placeholder="怎麼稱呼你" autocomplete="off"></div>
+            <div class="field"><input id="fPhone" placeholder="手機號碼（09 開頭）" inputmode="tel" autocomplete="off"></div>
+            <div class="switch"><div>需要陪診員陪同<small>第一次諮詢建議開啟</small></div><button class="tg on" id="fEscort" aria-pressed="true" aria-label="需要陪診員陪同"></button></div>
+            <label class="consent"><input type="checkbox" id="fOk"> 我已閱讀並同意個人資料蒐集告知事項，資料僅用於本次預約聯繫與提醒。</label>
+            <div class="err" id="e4"></div></div>
+          <div class="chat" id="chat"></div>
+          <div class="bar" id="bar"><button class="back" id="bBack" style="visibility:hidden">上一步</button><button class="next" id="bNext">下一步</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="wrap faq-grid">
+    <div class="reveal"><div class="kicker">First time?</div><h2 class="h2">第一次，<br>大家最常問的。</h2>
+      <p style="margin-top:20px"><span class="tag-demo">答案為提案示意・待團隊確認</span></p></div>
+    <div class="reveal">
+      <details open><summary>去諮詢會不會被推銷？</summary><p>諮詢的目的是讓你了解自己的狀況和選項。陪診員會在旁邊，你可以隨時說「我想回家再想想」，我們不會催你做決定。</p></details>
+      <details><summary>陪診員是醫護人員嗎？</summary><p>陪診員是楷娜團隊的服務人員，負責陪伴、協助記錄與聯繫，不做醫療判斷。所有評估和建議，都由合作診所的醫師提供。</p></details>
+      <details><summary>預約之後可以改時間嗎？</summary><p>可以。在 LINE 的預約確認訊息裡按「改期」，就能自己選新的時段。</p></details>
+      <details><summary>我的資料會被怎麼使用？</summary><p>預約時只收稱呼和手機，用於聯繫與提醒。健康相關的評估資料留在診所，不會出現在預約系統裡。</p></details>
+      <details><summary>一定要做療程嗎？</summary><p>不用。很多人第一次只是來問清楚。先規劃，再決定。</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="final">
+  <div class="bg" style="background-image:url(assets/cta.jpg)"></div>
+  <div class="cta-disc reveal">
+    <svg class="orbit" viewBox="0 0 600 600"><g class="spin" style="animation-duration:80s"><ellipse cx="300" cy="300" rx="292" ry="292" stroke-dasharray="1 7"/></g><g class="spin rev"><ellipse cx="300" cy="300" rx="290" ry="120" transform="rotate(-18 300 300)"/><use href="#star" x="480" y="150" width="26" height="26" class="spark"/></g></svg>
+    <div>
+      <div class="kicker">Start with a conversation</div>
+      <h2 class="h2">先聊聊，<br>不用急著決定。</h2>
+      <p class="lead">在 LINE 預約一次諮詢，我們陪你一起去。</p>
+      <a class="pill" href="#book">開始預約</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div><span class="logo-txt"><b>KANA</b><span>楷娜｜顏值規劃・陪診團隊</span></span><p style="margin-top:16px;max-width:24em">先規劃，再決定。</p></div>
+      <div><h6>CONTACT</h6><p>LINE 官方帳號 @479pbgvn<br>Instagram @cc_898900<br>主理人 @bageles_870602</p></div>
+      <div><h6>PARTNER CLINIC</h6><p>緹爾思醫美診所<br>台北市大安區安和路一段 19 號 2 樓<br>捷運忠孝敦化站 5 號出口 1 分鐘</p></div>
+    </div>
+    <p class="disclaimer">本網站為楷娜團隊之服務介紹，並非醫療機構官方網站。楷娜團隊隸屬於緹爾思醫美診所，所有醫療評估、診斷與處置均由該診所合格醫師執行；網站上的部位說明為一般衛教資訊，不構成醫療建議，個人狀況請以醫師評估為準。<br>提案原型・優點整合行銷・2026-11-25｜醫師、時段與部分文案為示意，未拍板｜主視覺 AI 生成</p>
+  </div>
+</footer>
+
+<div class="proto"><span>提案原型</span><a href="admin.html">團隊後台 →</a></div>
+
+<script>
+/* ───────── WebGL light field (hero) ───────── */
+(()=>{
+  const c=document.getElementById("gl");const gl=c.getContext("webgl",{premultipliedAlpha:false,antialias:false});
+  if(!gl||matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+  const vs=`attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}`;
+  const fs=`precision mediump float;uniform vec2 r;uniform float t;uniform vec2 m;
+  float h(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
+  float orb(vec2 uv,vec2 c,float s){float d=length(uv-c);return exp(-d*d/s);}
+  void main(){vec2 uv=gl_FragCoord.xy/r;float a=r.x/r.y;vec2 q=vec2(uv.x*a,uv.y);
+    vec3 paper=vec3(.937,.922,.898),sand=vec3(.847,.804,.753),glow=vec3(1.,.992,.973),taupe=vec3(.65,.592,.541);
+    vec3 col=mix(sand,paper,smoothstep(-.1,.9,uv.y*.6+uv.x*.5));
+    vec2 mm=vec2(m.x*a,m.y);
+    float o=0.;
+    o+=orb(q,vec2(a*.72+.06*sin(t*.21),.62+.05*cos(t*.17)),.06)*.9;
+    o+=orb(q,vec2(a*.86+.08*cos(t*.13),.34+.06*sin(t*.19)),.035)*.7;
+    o+=orb(q,vec2(a*.30+.10*sin(t*.11),.82+.04*cos(t*.23)),.05)*.45;
+    o+=orb(q,mm,.025)*.55;
+    col=mix(col,glow,clamp(o,0.,1.));
+    for(int i=0;i<4;i++){float fi=float(i);float y=.25+fi*.17+.02*sin(t*.3+fi*2.);
+      float band=exp(-abs(uv.y-y)*(420.+fi*120.))*smoothstep(.35,1.,uv.x)*smoothstep(1.05,.75,uv.x)*(.07+.05*sin(t*.4+fi));
+      col+=glow*band;}
+    float ring=abs(length(q-vec2(a*.74,.55))-.34);col=mix(col,taupe,exp(-ring*900.)*.05);
+    col+=(h(gl_FragCoord.xy+t)-.5)*.025;
+    gl_FragColor=vec4(col,1.);}`;
+  const sh=(t,s)=>{const o=gl.createShader(t);gl.shaderSource(o,s);gl.compileShader(o);return o};
+  const pr=gl.createProgram();gl.attachShader(pr,sh(gl.VERTEX_SHADER,vs));gl.attachShader(pr,sh(gl.FRAGMENT_SHADER,fs));gl.linkProgram(pr);
+  if(!gl.getProgramParameter(pr,gl.LINK_STATUS))return;gl.useProgram(pr);
+  const b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,1,1]),gl.STATIC_DRAW);
+  const loc=gl.getAttribLocation(pr,"p");gl.enableVertexAttribArray(loc);gl.vertexAttribPointer(loc,2,gl.FLOAT,false,0,0);
+  const ur=gl.getUniformLocation(pr,"r"),ut=gl.getUniformLocation(pr,"t"),um=gl.getUniformLocation(pr,"m");
+  let mx=.7,my=.5,tx=.7,ty=.5,vis=true;
+  addEventListener("pointermove",e=>{const R=c.getBoundingClientRect();tx=(e.clientX-R.left)/R.width;ty=1-(e.clientY-R.top)/R.height},{passive:true});
+  new IntersectionObserver(([e])=>vis=e.isIntersecting).observe(c);
+  function size(){const d=Math.min(devicePixelRatio,1.5);c.width=c.clientWidth*d;c.height=c.clientHeight*d;gl.viewport(0,0,c.width,c.height)}
+  size();addEventListener("resize",size);
+  const t0=performance.now();(function f(n){requestAnimationFrame(f);if(!vis)return;mx+=(tx-mx)*.05;my+=(ty-my)*.05;
+    gl.uniform2f(ur,c.width,c.height);gl.uniform1f(ut,(n-t0)/1000);gl.uniform2f(um,mx,my);gl.drawArrays(gl.TRIANGLE_STRIP,0,4)})(t0);
+})();
+
+/* ───────── split headings ───────── */
+document.querySelectorAll(".split").forEach(el=>{let i=0;
+  const walk=n=>{[...n.childNodes].forEach(k=>{if(k.nodeType===3){const f=document.createDocumentFragment();
+    [...k.textContent].forEach(ch=>{const s=document.createElement("span");s.className="ch";s.textContent=ch;s.style.transitionDelay=(i++*45)+"ms";f.appendChild(s)});k.replaceWith(f)}
+    else if(k.nodeType===1&&k.tagName!=="BR")walk(k)})};walk(el)});
+
+/* ───────── face map ───────── */
+const ZONES=[
+ {id:"eye",name:"眼窩／C 框",x:250,y:206,label:"眼窩",sub:"Upper Eye",
+  worry:["眼窩凹陷，看起來疲倦","上眼皮凹，顯得沒精神","兩邊深淺不一樣"],look:["凹陷來自脂肪流失還是骨架","眼皮鬆弛的程度","左右是否對稱"],
+  ask:"我的凹陷是哪一種原因造成的？不同處理方式的恢復期和風險各是什麼？"},
+ {id:"tear",name:"淚溝",x:150,y:248,label:"淚溝",sub:"Tear Trough",
+  worry:["黑眼圈怎麼睡都在","看起來總是沒睡飽","化妝也蓋不太住"],look:["淚溝深度與範圍","是否同時有眼袋","膚色與皮膚厚度"],
+  ask:"我看到的是淚溝、眼袋，還是色素型黑眼圈？哪一個才是主要原因？"},
+ {id:"cheek",name:"蘋果肌",x:268,y:274,label:"蘋果肌",sub:"Mid-face",
+  worry:["中臉看起來比較扁","笑起來不夠飽滿","臉型顯得疲憊"],look:["中臉組織是下垂還是流失","與整體五官的比例","表情時的動態變化"],
+  ask:"如果處理蘋果肌，會不會連帶影響法令紋或淚溝的狀況？"},
+ {id:"nose",name:"鼻",x:200,y:270,label:"鼻",sub:"Nose",
+  worry:["鼻樑比較低","側面不夠立體","鼻頭比例想調整"],look:["鼻樑與鼻頭的比例","與額頭、下巴的側面線條","過去是否處理過"],
+  ask:"以我的臉型，調整到什麼程度看起來最自然？"},
+ {id:"fold",name:"法令紋",x:160,y:334,label:"法令紋",sub:"Nasolabial",
+  worry:["嘴邊紋路明顯","看起來比較兇或老","不笑也看得到"],look:["是中臉下垂還是局部凹陷","皮膚彈性","表情肌的使用習慣"],
+  ask:"我的法令紋是從哪裡開始的？只處理紋路本身會不會不夠？"},
+ {id:"full",name:"全臉規劃",x:200,y:250,big:true,sub:"Full Face",
+  worry:["不知道該從哪裡開始","想改變，但怕不像自己","想一次規劃好"],look:["五官比例與整體協調","哪些地方優先處理","預算與時間怎麼安排"],
+  ask:"如果分階段進行，第一步做什麼最有感、也最保守？"}];
+const NS="http://www.w3.org/2000/svg",faceSvg=document.querySelector("#face svg"),ring=document.getElementById("focusRing");
+const zonesEl=document.getElementById("zones"),card=document.getElementById("zoneCard");
+ZONES.forEach(z=>{const b=document.createElement("button");b.textContent=z.name;b.dataset.id=z.id;b.onclick=()=>setZone(z.id);zonesEl.appendChild(b);
+  if(z.big)return;const g=document.createElementNS(NS,"g");g.setAttribute("class","spot");g.dataset.id=z.id;g.setAttribute("tabindex","0");g.setAttribute("role","button");g.setAttribute("aria-label",z.name);
+  const r=z.x>=200;g.innerHTML=`<circle class="ring1" cx="${z.x}" cy="${z.y}" r="8"/><circle class="dot" cx="${z.x}" cy="${z.y}" r="4.5"/><text x="${z.x+(r?16:-16)}" y="${z.y+4}" text-anchor="${r?"start":"end"}">${z.label}</text>`;
+  g.onclick=()=>setZone(z.id);g.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();setZone(z.id)}};faceSvg.appendChild(g)});
+function setZone(id){const z=ZONES.find(v=>v.id===id);
+  zonesEl.querySelectorAll("button").forEach(b=>b.classList.toggle("on",b.dataset.id===id));
+  faceSvg.querySelectorAll(".spot").forEach(s=>s.classList.toggle("on",s.dataset.id===id));
+  ring.setAttribute("cx",z.x);ring.setAttribute("cy",z.y);ring.setAttribute("r",z.big?205:34);
+  card.innerHTML=`<div class="zi"><div class="sub">${z.sub}</div><h3>${z.name}</h3>
+   <div class="zone-cols"><div><h4>常見的在意</h4><ul>${z.worry.map(w=>`<li>${w}</li>`).join("")}</ul></div><div><h4>醫師評估時會看</h4><ul>${z.look.map(w=>`<li>${w}</li>`).join("")}</ul></div></div>
+   <div class="zone-q"><b>諮詢時可以這樣問</b>${z.ask}</div>
+   <div class="zone-foot"><button class="pill pill-ghost" onclick="bookZone('${z.id}')">預約這個部位的諮詢</button><small>衛教內容由合作診所醫師審閱（示意）</small></div></div>`}
+setZone("tear");
+
+/* ───────── booking ───────── */
+const st={zones:new Set(),loc:null,doc:null,date:null,slot:null,escort:true};
+const LOCS=[["trs","緹爾思醫美診所","台北市大安區安和路一段 19 號 2 樓"]];
+const DOCS=[["any","不指定，由團隊安排","依你的需求安排合適的醫師"],["a","醫師 A（示意）","資歷待確認"],["b","醫師 B（示意）","資歷待確認"]];
+const bz=document.getElementById("bkZones");
+ZONES.forEach(z=>{const c=document.createElement("button");c.className="chip";c.dataset.id=z.id;c.innerHTML=`<i></i>${z.name}`;
+  c.onclick=()=>{st.zones.has(z.id)?st.zones.delete(z.id):st.zones.add(z.id);c.classList.toggle("on")};bz.appendChild(c)});
+function opts(el,list,key){el.innerHTML="";list.forEach(([id,t,s])=>{const b=document.createElement("button");b.className="opt";b.innerHTML=`<span class="rad"></span><span>${t}<small>${s}</small></span>`;
+  b.onclick=()=>{st[key]=id;[...el.children].forEach(x=>x.classList.remove("on"));b.classList.add("on")};el.appendChild(b)})}
+opts(document.getElementById("bkLoc"),LOCS,"loc");opts(document.getElementById("bkDoc"),DOCS,"doc");
+const W="日一二三四五六",dEl=document.getElementById("bkDates"),today=new Date();
+for(let i=1;i<=14;i++){const d=new Date(today);d.setDate(today.getDate()+i);const b=document.createElement("button");b.className="date";b.disabled=d.getDay()===1;
+  b.innerHTML=`週${W[d.getDay()]}<b>${d.getDate()}</b>${d.getMonth()+1}月`;b.dataset.txt=`${d.getMonth()+1}/${d.getDate()}（${W[d.getDay()]}）`;
+  b.onclick=()=>{st.date=b.dataset.txt;st.slot=null;[...dEl.children].forEach(x=>x.classList.remove("on"));b.classList.add("on");renderSlots(i)};dEl.appendChild(b)}
+const SL=["11:00","11:30","13:30","14:00","14:30","15:00","16:00","16:30","19:00"],slotsEl=document.getElementById("bkSlots"),NOSLOT='<p style="grid-column:1/-1;font-size:13px;color:#9A8C82">請先選日期</p>';
+slotsEl.innerHTML=NOSLOT;
+function renderSlots(seed){slotsEl.innerHTML="";SL.forEach((t,k)=>{const b=document.createElement("button");b.className="slot";b.textContent=t;b.disabled=((seed*7+k*3)%5===0);
+  b.onclick=()=>{st.slot=t;[...slotsEl.children].forEach(x=>x.classList.remove("on"));b.classList.add("on")};slotsEl.appendChild(b)})}
+const tg=document.getElementById("fEscort");tg.onclick=()=>{st.escort=!st.escort;tg.classList.toggle("on",st.escort);tg.setAttribute("aria-pressed",st.escort)};
+let step=1;const steps=[...document.querySelectorAll(".step")],prog=[...document.querySelectorAll("#prog i")],bBack=document.getElementById("bBack"),bNext=document.getElementById("bNext");
+function show(n){step=n;steps.forEach(s=>s.classList.toggle("on",+s.dataset.step===n));prog.forEach((p,i)=>p.classList.toggle("on",i<n));
+  bBack.style.visibility=n>1?"visible":"hidden";bNext.textContent=n===4?"確認預約":"下一步";document.querySelectorAll(".err").forEach(e=>e.textContent="")}
+const err=(n,m)=>{document.getElementById("e"+n).textContent=m;return false};
+function valid(n){
+  if(n===1&&!st.zones.size)return err(1,"選一個就好，之後還可以跟醫師多聊。");
+  if(n===2&&(!st.loc||!st.doc))return err(2,"請選擇地點與醫師（可選不指定）。");
+  if(n===3&&(!st.date||!st.slot))return err(3,"請選擇日期與時段。");
+  if(n===4){const nm=document.getElementById("fName").value.trim(),ph=document.getElementById("fPhone").value.replace(/[\s-]/g,"");
+    if(!nm)return err(4,"請留下稱呼。");if(!/^09\d{8}$/.test(ph))return err(4,"手機號碼格式好像不對（09 開頭共 10 碼）。");
+    if(!document.getElementById("fOk").checked)return err(4,"請勾選同意個資告知事項。")}
+  return true}
+bNext.onclick=()=>{if(!valid(step))return;step<4?show(step+1):done()};bBack.onclick=()=>{if(step>1)show(step-1)};
+function done(){steps.forEach(s=>s.classList.remove("on"));document.getElementById("bar").style.display="none";document.getElementById("prog").style.display="none";
+  const nm=document.getElementById("fName").value.trim(),loc=LOCS.find(l=>l[0]===st.loc)[1],doc=DOCS.find(d=>d[0]===st.doc)[1],zs=ZONES.filter(z=>st.zones.has(z.id)).map(z=>z.name).join("、");
+  const c=document.getElementById("chat");c.classList.add("on");
+  c.innerHTML=`<div class="bubble"><h6>預約完成 ✓</h6><dl><dt>日期</dt><dd>${st.date} ${st.slot}</dd><dt>地點</dt><dd>${loc}</dd><dt>醫師</dt><dd>${doc}</dd><dt>想聊</dt><dd>${zs}</dd><dt>陪診</dt><dd>${st.escort?"已安排陪診員":"不需要"}</dd></dl>
+  <div class="acts"><span>改期</span><span>取消</span><span>加入行事曆</span></div></div>
+  <div class="bubble b2">${nm.replace(/[<>&]/g,"")}，謝謝你的預約 ♡<br>${st.escort?"陪診員會在前一晚 8 點傳訊息給你，":"我們會在前一晚 8 點提醒你，"}有任何問題，現在就可以直接問我們。</div>
+  <button class="restart" onclick="resetBk()">重新示範</button>`}
+function resetBk(){st.zones.clear();st.loc=st.doc=st.date=st.slot=null;
+  document.querySelectorAll("#bkZones .on,#bkLoc .on,#bkDoc .on,#bkDates .on").forEach(x=>x.classList.remove("on"));
+  document.getElementById("chat").classList.remove("on");document.getElementById("bar").style.display="";document.getElementById("prog").style.display="";
+  ["fName","fPhone"].forEach(i=>document.getElementById(i).value="");document.getElementById("fOk").checked=false;slotsEl.innerHTML=NOSLOT;show(1)}
+function bookZone(id){resetBk();st.zones.add(id);bz.querySelector(`[data-id="${id}"]`).classList.add("on");document.getElementById("book").scrollIntoView({behavior:"smooth"})}
+
+/* ───────── motion ───────── */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.15});
+document.querySelectorAll(".reveal,.split,#face").forEach(el=>io.observe(el));
+const hdr=document.getElementById("hdr"),stage=document.getElementById("stage"),tl=document.getElementById("timeline"),fill=document.getElementById("tlFill"),items=[...tl.querySelectorAll("li")];
+const cT=document.getElementById("clockT"),cL=document.getElementById("clockL");let lastAct=-1;
+function onScroll(){const y=scrollY;hdr.classList.toggle("scrolled",y>10);
+  if(stage&&y<innerHeight)stage.style.transform=`translateY(${y*.12}px) rotate(${y*.01}deg)`;
+  const R=tl.getBoundingClientRect(),mid=innerHeight*.55,p=Math.min(Math.max((mid-R.top)/R.height,0),1);fill.style.height=(p*(R.height-16))+"px";
+  let act=-1;items.forEach((li,i)=>{if(li.getBoundingClientRect().top<mid)act=i});items.forEach((li,i)=>li.classList.toggle("act",i<=act));
+  if(act!==lastAct&&act>=0){lastAct=act;cT.style.opacity=0;setTimeout(()=>{cT.textContent=items[act].dataset.t;cL.textContent=items[act].dataset.l;cT.style.opacity=1},200)}}
+addEventListener("scroll",onScroll,{passive:true});onScroll();
+const cur=document.getElementById("cursor");let cx=0,cy=0,px=0,py=0;
+addEventListener("pointermove",e=>{px=e.clientX;py=e.clientY},{passive:true});
+(function loop(){cx+=(px-cx)*.12;cy+=(py-cy)*.12;cur.style.transform=`translate(${cx}px,${cy}px)`;requestAnimationFrame(loop)})();
+document.querySelectorAll(".pill").forEach(b=>{b.addEventListener("pointermove",e=>{const r=b.getBoundingClientRect();b.style.transform=`translate(${(e.clientX-r.left-r.width/2)*.12}px,${(e.clientY-r.top-r.height/2)*.2}px)`});b.addEventListener("pointerleave",()=>b.style.transform="")});
+</script>
+</body>
+</html>

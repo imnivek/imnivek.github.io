@@ -1,0 +1,609 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>楷娜官網設計規劃書</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#F4F1EC;--paper-2:#EAE4DC;--sand:#D8CDC0;--taupe:#A6978A;--mocha:#7E6A5C;--cocoa:#4E3F35;--ink:#352B25;--ink-2:#655850;--ink-3:#968880;--glow:#FFFDF8;--hair:rgba(53,43,37,.13);--ok:#5F7F63;--warn:#A9793D;--bad:#A5473A;--line:#06C755;
+  --serif:"Noto Serif TC",serif;--sans:"Noto Sans TC",system-ui,sans-serif;--latin:"Cormorant Garamond",serif}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:20px}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-weight:300;font-size:15.5px;line-height:1.85;-webkit-font-smoothing:antialiased}
+a{color:var(--mocha)}
+.layout{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+nav.toc{position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--ink);color:#CFC3B9;padding:30px 22px;font-size:13.5px}
+nav.toc .brand{font-family:var(--latin);font-size:24px;letter-spacing:.16em;color:var(--glow)}
+nav.toc .brand small{display:block;font-family:var(--sans);font-size:11.5px;letter-spacing:.3em;color:#9B8E85;margin-bottom:26px}
+nav.toc a{display:block;color:#CFC3B9;text-decoration:none;padding:5px 0 5px 12px;border-left:1px solid rgba(255,255,255,.1);transition:.2s}
+nav.toc a:hover,nav.toc a.on{color:var(--glow);border-color:var(--sand)}
+nav.toc .grp{margin:18px 0 6px;font-size:11px;letter-spacing:.3em;color:#8E8076}
+nav.toc a.sub{padding-left:24px;font-size:12.5px}
+main{padding:0 56px 120px;max-width:1180px}
+@media (max-width:980px){.layout{grid-template-columns:1fr}nav.toc{position:relative;height:auto}main{padding:0 18px 80px}}
+
+.cover{padding:90px 0 60px;border-bottom:1px solid var(--hair);position:relative;overflow:hidden}
+.cover .orb{position:absolute;right:-80px;top:20px;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle at 35% 30%,var(--glow),var(--sand) 60%,var(--taupe));opacity:.55}
+.cover .orb::after{content:"";position:absolute;inset:-40px -120px;border:1px solid var(--mocha);border-radius:50%;transform:rotate(-20deg);opacity:.5}
+.kicker{font-family:var(--latin);font-size:18px;letter-spacing:.16em;color:var(--mocha)}
+h1{font-family:var(--serif);font-weight:500;font-size:clamp(34px,5vw,56px);letter-spacing:.1em;line-height:1.35;margin:12px 0 18px;position:relative}
+.meta{display:flex;flex-wrap:wrap;gap:8px;position:relative}
+.meta span{font-size:12.5px;letter-spacing:.1em;padding:5px 14px;border-radius:999px;background:var(--glow);border:1px solid var(--hair)}
+.status{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--mocha);border:1px dashed var(--taupe);border-radius:999px;padding:2px 10px;display:inline-block;letter-spacing:.02em}
+
+section.part{padding:80px 0 10px;border-bottom:1px solid var(--hair)}
+.part-no{font-family:var(--latin);font-size:64px;line-height:1;color:var(--sand)}
+h2{font-family:var(--serif);font-weight:500;font-size:clamp(26px,3vw,36px);letter-spacing:.1em;margin:6px 0 10px}
+.part>.lead{color:var(--ink-2);max-width:46em;margin-bottom:34px}
+h3{font-family:var(--serif);font-weight:500;font-size:22px;letter-spacing:.08em;margin:46px 0 12px;display:flex;align-items:center;gap:12px}
+h3 .id,h4 .id{font-family:ui-monospace,Menlo,monospace;font-size:12px;font-weight:400;color:var(--glow);background:var(--mocha);border-radius:999px;padding:2px 10px;letter-spacing:.04em}
+h4{font-size:15px;font-weight:500;letter-spacing:.1em;margin:22px 0 8px;display:flex;gap:10px;align-items:center}
+p{margin:8px 0}
+ul.dot{list-style:none;margin:8px 0}
+ul.dot li{padding:3px 0 3px 20px;position:relative}
+ul.dot li::before{content:"";position:absolute;left:3px;top:13px;width:7px;height:7px;border-radius:50%;border:1px solid var(--mocha)}
+.fig{background:var(--glow);border:1px solid var(--hair);border-radius:24px;padding:26px;margin:18px 0}
+.fig figcaption{font-size:12.5px;color:var(--ink-3);margin-top:12px;letter-spacing:.06em}
+.fig svg{width:100%;height:auto;display:block}
+.shot{border-radius:16px;overflow:hidden;border:1px solid var(--hair);box-shadow:0 30px 60px -40px rgba(53,43,37,.5);background:var(--paper-2)}
+.shot img{width:100%;display:block}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media (max-width:900px){.grid2,.grid3{grid-template-columns:1fr}}
+.card{background:var(--glow);border:1px solid var(--hair);border-radius:20px;padding:22px}
+.card b.t{display:block;font-family:var(--serif);font-weight:500;font-size:18px;letter-spacing:.08em;margin-bottom:6px}
+table{width:100%;border-collapse:collapse;font-size:14px;margin:12px 0;background:var(--glow);border-radius:16px;overflow:hidden}
+th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--hair);vertical-align:top}
+th{background:var(--paper-2);font-weight:500;letter-spacing:.08em;font-size:13px}
+.tw{overflow-x:auto}
+
+/* component block */
+.comp{display:grid;grid-template-columns:1.05fr 1fr;gap:30px;margin:26px 0 10px;padding:30px;background:var(--glow);border:1px solid var(--hair);border-radius:28px}
+.comp .shot{align-self:start;position:sticky;top:20px}
+.comp h3{margin-top:0}
+.comp .row{margin-top:14px}
+.comp .row>b{display:inline-block;font-size:12px;font-weight:500;letter-spacing:.24em;color:var(--glow);background:var(--taupe);border-radius:999px;padding:1px 12px;margin-bottom:4px}
+.comp .row.why>b{background:var(--mocha)}
+.comp .row.adv>b{background:var(--ok)}
+.comp .row.need>b{background:var(--ink-3)}
+.comp .row.talk>b{background:var(--warn)}
+.talk ul{list-style:none}
+.talk li{padding:3px 0 3px 26px;position:relative}
+.talk li::before{content:"";position:absolute;left:2px;top:9px;width:13px;height:13px;border-radius:4px;border:1px solid var(--warn)}
+@media (max-width:1000px){.comp{grid-template-columns:1fr;padding:20px}.comp .shot{position:relative;top:0}}
+
+.swatch{display:flex;gap:12px;flex-wrap:wrap}
+.swatch div{width:118px}
+.swatch i{display:block;height:84px;border-radius:50%;width:84px;border:1px solid var(--hair);margin-bottom:8px}
+.swatch b{font-weight:500;font-size:13px;display:block}
+.swatch small{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--ink-3)}
+.note{background:#F6EEE3;border-left:3px solid var(--warn);border-radius:0 14px 14px 0;padding:14px 18px;margin:16px 0;font-size:14.5px}
+.note.ok{background:#EAF0E8;border-color:var(--ok)}
+.foot{margin-top:60px;font-size:12.5px;color:var(--ink-3)}
+</style>
+</head>
+<body>
+<div class="layout">
+<nav class="toc" id="toc">
+  <div class="brand">KANA<small>官網設計規劃書 v0.1</small></div>
+  <div class="grp">開始</div>
+  <a href="#summary">一頁總覽</a>
+  <a href="#source">分析來源與限制</a>
+  <div class="grp">一｜全局視角</div>
+  <a href="#g1" class="sub">G-1 為什麼需要官網</a>
+  <a href="#g2" class="sub">G-2 官網在生態圈的角色</a>
+  <a href="#g3" class="sub">G-3 受眾與使用旅程</a>
+  <a href="#g4" class="sub">G-4 設計原則</a>
+  <a href="#g5" class="sub">G-5 頁面架構與情緒曲線</a>
+  <div class="grp">二｜設計系統</div>
+  <a href="#d1" class="sub">D-1 核心概念：圓</a>
+  <a href="#d2" class="sub">D-2 色彩</a>
+  <a href="#d3" class="sub">D-3 字體</a>
+  <a href="#d4" class="sub">D-4 圖像與 Codex 主視覺</a>
+  <a href="#d5" class="sub">D-5 動態原則</a>
+  <div class="grp">三｜部件規劃</div>
+  <a href="#c01" class="sub">C-01 導覽列</a>
+  <a href="#c02" class="sub">C-02 首屏主視覺</a>
+  <a href="#c03" class="sub">C-03 三個入口</a>
+  <a href="#c04" class="sub">C-04 服務介紹</a>
+  <a href="#c05" class="sub">C-05 部位地圖</a>
+  <a href="#c06" class="sub">C-06 陪診的一天</a>
+  <a href="#c07" class="sub">C-07 主理人</a>
+  <a href="#c08" class="sub">C-08 線上預約</a>
+  <a href="#c09" class="sub">C-09 常見問題</a>
+  <a href="#c10" class="sub">C-10 結尾邀請</a>
+  <a href="#c11" class="sub">C-11 頁尾與合規聲明</a>
+  <a href="#c12" class="sub">C-12 團隊後台</a>
+  <a href="#c13" class="sub">C-13 手機版</a>
+  <div class="grp">四｜系統與執行</div>
+  <a href="#s1" class="sub">S-1 預約系統架構</a>
+  <a href="#s2" class="sub">S-2 合規設計對照</a>
+  <a href="#s3" class="sub">S-3 技術、效能與無障礙</a>
+  <a href="#s4" class="sub">S-4 時程（未拍板）</a>
+  <div class="grp">討論</div>
+  <a href="#talk">待討論與修改清單</a>
+  <a href="#log">版本紀錄</a>
+</nav>
+
+<main>
+<header class="cover">
+  <div class="orb"></div>
+  <div class="kicker">Website Design Plan</div>
+  <h1>楷娜官網設計規劃書</h1>
+  <p style="max-width:40em;color:var(--ink-2);position:relative">本文件說明楷娜官網提案原型「為什麼這樣設計、每個部件做什麼、帶來什麼功能優勢」。每個項目都有編號（例如 C-05），討論與修改時直接引用編號即可。</p>
+  <div class="meta" style="margin-top:20px"><span>提案方：優點整合行銷</span><span>委託：楷娜主理人 貝果</span><span>版本 v0.1・2026-11-25</span><span class="status">內部草稿・尚未與貝果確認</span></div>
+  <p style="margin-top:18px;position:relative;font-size:14px">對應原型：<a href="../index.html">官網首頁</a>｜<a href="../admin.html">團隊後台</a>｜相關文件：品牌行銷策略規劃、線上預約系統需求（內部文件）</p>
+</header>
+
+<!-- SUMMARY -->
+<section class="part" id="summary">
+  <div class="part-no">00</div>
+  <h2>一頁總覽</h2>
+  <div class="grid3">
+    <div class="card"><b class="t">要解決的事</b>楷娜的信任資產散在三個 IG 帳號的精選動態裡，預約全靠 LINE 人工對話，主理人的時間被重複問題吃掉。</div>
+    <div class="card"><b class="t">官網的角色</b>不負責「說服」，IG 已經做到了。官網負責兩件事：讓信任可以被查證，並讓預約可以自助完成。</div>
+    <div class="card"><b class="t">設計主軸</b>「先規劃，再決定。」以貝果喜歡的灰褐光暈風格為基底，用「圓」串起整站：圓代表完整，軌道代表團隊陪在你身邊。</div>
+  </div>
+  <div class="grid3" style="margin-top:18px">
+    <div class="card"><b class="t">核心功能</b>LINE 內預約（LIFF）、自動提醒、自助改期、熟客一鍵再約、互動部位地圖、團隊後台。</div>
+    <div class="card"><b class="t">合規立場</b>網站是楷娜團隊的服務介紹，不是診所官網。只講陪伴、規劃、預約服務；不放價格、療效、對比照。</div>
+    <div class="card"><b class="t">目前狀態</b>可操作的高擬真原型。醫師、時段、部分文案是示意；正式上線前需貝果確認並請律師審閱。</div>
+  </div>
+</section>
+
+<!-- SOURCE -->
+<section class="part" id="source">
+  <div class="part-no">00</div>
+  <h2>分析來源與限制</h2>
+  <p class="lead">設計建立在先前的品牌行銷分析之上。這裡說清楚分析怎麼做、哪些是推論。</p>
+  <div class="tw"><table>
+    <tr><th>分析方法</th><th>做了什麼</th><th>用在網站哪裡</th></tr>
+    <tr><td>受眾畫像師</td><td>依其流程產出市場分群與兩張 Persona：第一次怕踩雷的小昀、定期保養的熟客 Joyce</td><td>C-06 陪診的一天、C-08 熟客一鍵再約、C-09 常見問題</td></tr>
+    <tr><td>社群內容策略師</td><td>以 12 維度選出 A11 職人視角、A10 專業知識、A5 受眾痛點三個切角，與部位 SEO 標題</td><td>C-05 部位地圖（衛教卡）、C-09 常見問題</td></tr>
+    <tr><td>品牌專屬文案師</td><td>依簡介推論品牌語氣：懂行的姊妹，不是業務；列出必用詞與禁用詞</td><td>全站文案口吻、C-02 標語</td></tr>
+    <tr><td>公關風險偵測</td><td>紅藍軍模擬，標出「權威」「抽成」「上海手術」等高風險用語</td><td>C-11 合規聲明、S-2 合規對照</td></tr>
+    <tr><td>公開資料調研</td><td>IG 三帳號公開首頁、衛福部醫療廣告與招攬相關公告與報導</td><td>G-1、S-2</td></tr>
+  </table></div>
+  <div class="note"><b>限制：</b>四個特攻隊 skill 是我讀完其方法後依流程執行的，沒有透過正式 skill 呼叫逐一跑。IG 未登入，貼文文案與互動數沒有讀到，所以受眾和語氣屬於依簡介與精選動態的推論。登入 IG 後建議正式重跑一輪校正。</div>
+</section>
+
+<!-- GLOBAL -->
+<section class="part" id="global">
+  <div class="part-no">01</div>
+  <h2>全局視角：先看整片森林</h2>
+  <p class="lead">在決定任何一個按鈕長什麼樣子之前，先回答三個問題：官網要解決什麼？它在楷娜的整個生態裡扮演什麼角色？客人從哪裡來、要往哪裡去？</p>
+
+  <h3 id="g1"><span class="id">G-1</span>為什麼需要官網：現況與未來</h3>
+  <figure class="fig">
+    <svg viewBox="0 0 1000 440" font-family="Noto Sans TC, sans-serif">
+      <text x="20" y="34" font-size="15" fill="#A5473A" letter-spacing="3">現況｜所有路都通到同一個 LINE 對話框</text>
+      <g font-size="13" fill="#352B25">
+        <circle cx="90" cy="120" r="46" fill="#EAE4DC" stroke="#A6978A"/><text x="90" y="116" text-anchor="middle">主理人 IG</text><text x="90" y="134" text-anchor="middle" fill="#968880" font-size="11">2.2 萬粉絲</text>
+        <circle cx="90" cy="232" r="38" fill="#EAE4DC" stroke="#A6978A"/><text x="90" y="230" text-anchor="middle">楷娜 IG</text><text x="90" y="246" text-anchor="middle" fill="#968880" font-size="11">2025/07 後停更</text>
+        <circle cx="90" cy="330" r="30" fill="#EAE4DC" stroke="#A6978A"/><text x="90" y="334" text-anchor="middle" font-size="12">CHIHLING</text>
+        <path d="M140 120C220 120 230 220 290 225M130 232H290M122 330C220 330 230 240 290 240" fill="none" stroke="#A6978A" stroke-dasharray="4 4"/>
+        <rect x="290" y="190" width="150" height="80" rx="40" fill="#06C755" opacity=".15" stroke="#06C755"/><text x="365" y="226" text-anchor="middle">LINE 一對一</text><text x="365" y="246" text-anchor="middle" font-size="11" fill="#655850">逐一回覆、手動排時間</text>
+        <path d="M440 230H500" stroke="#A6978A" marker-end="url(#ar)"/>
+        <circle cx="560" cy="230" r="56" fill="#F6EEE3" stroke="#A9793D"/><text x="560" y="226" text-anchor="middle">貝果本人</text><text x="560" y="244" text-anchor="middle" font-size="11" fill="#A9793D">時間瓶頸</text>
+        <g font-size="12.5" fill="#655850">
+          <text x="650" y="130">✕ 信任證據散在精選動態，搜尋不到</text>
+          <text x="650" y="170">✕ 品牌名稱混用：楷娜／Kana／CHIHLING／診所</text>
+          <text x="650" y="210">✕ 沒有排程、提醒，容易爽約</text>
+          <text x="650" y="250">✕ 熟客每次都要重新說明需求</text>
+          <text x="650" y="290">✕ 第一次的人怕被推銷，傳 LINE 前就放棄</text>
+        </g>
+      </g>
+      <line x1="20" y1="380" x2="980" y2="380" stroke="#D8CDC0"/>
+      <text x="20" y="414" font-size="15" fill="#5F7F63" letter-spacing="3">未來｜IG 說故事 → 官網建立信任 → LINE 內自助預約 → 後台自動化</text>
+      <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#A6978A"/></marker></defs>
+    </svg>
+    <figcaption>圖 G-1｜現況診斷。資料來源：IG 三帳號公開首頁，查詢日 2026-11-25。</figcaption>
+  </figure>
+
+  <h3 id="g2"><span class="id">G-2</span>官網在生態圈的角色</h3>
+  <div class="grid2">
+  <figure class="fig">
+    <svg viewBox="0 0 460 420" font-family="Noto Sans TC, sans-serif" font-size="13">
+      <ellipse cx="230" cy="210" rx="215" ry="120" fill="none" stroke="#A6978A" transform="rotate(-18 230 210)"/>
+      <ellipse cx="230" cy="210" rx="180" ry="180" fill="none" stroke="#D8CDC0" stroke-dasharray="2 6"/>
+      <circle cx="230" cy="210" r="62" fill="#7E6A5C"/><text x="230" y="206" text-anchor="middle" fill="#FFFDF8" font-size="15">客人</text><text x="230" y="226" text-anchor="middle" fill="#EAE4DC" font-size="11">小昀／Joyce</text>
+      <circle cx="90" cy="96" r="50" fill="#EAE4DC" stroke="#A6978A"/><text x="90" y="92" text-anchor="middle">IG</text><text x="90" y="110" text-anchor="middle" font-size="11" fill="#655850">曝光・人味</text>
+      <circle cx="380" cy="110" r="56" fill="#FFFDF8" stroke="#7E6A5C" stroke-width="2"/><text x="380" y="106" text-anchor="middle" font-weight="500">官網</text><text x="380" y="124" text-anchor="middle" font-size="11" fill="#655850">信任・查證・預約</text>
+      <circle cx="380" cy="330" r="48" fill="#E3F6EA" stroke="#06C755"/><text x="380" y="326" text-anchor="middle">LINE</text><text x="380" y="344" text-anchor="middle" font-size="11" fill="#655850">對話・提醒</text>
+      <circle cx="84" cy="322" r="50" fill="#EAE4DC" stroke="#A6978A"/><text x="84" y="318" text-anchor="middle">緹爾思診所</text><text x="84" y="336" text-anchor="middle" font-size="11" fill="#655850">醫療執行</text>
+      <path d="M395 38l3 9 9 3-9 3-3 9-3-9-9-3 9-3z" fill="#7E6A5C"/>
+    </svg>
+    <figcaption>圖 G-2｜四個觸點圍繞同一位客人。官網是唯一能「被搜尋、被查證、可自助預約」的地方。</figcaption>
+  </figure>
+  <div>
+    <div class="tw"><table>
+      <tr><th>觸點</th><th>擅長</th><th>不擅長</th></tr>
+      <tr><td>IG</td><td>人味、日常、即時、陪診碎片</td><td>被 Google 搜到、完整說明、排程</td></tr>
+      <tr><td><b>官網</b></td><td><b>完整說明服務、部位衛教、可查證資訊、自助預約</b></td><td>即時互動</td></tr>
+      <tr><td>LINE</td><td>一對一對話、推播提醒</td><td>展示、被新客找到</td></tr>
+      <tr><td>診所</td><td>醫療評估與處置</td><td>陪伴、事前規劃</td></tr>
+    </table></div>
+    <div class="note ok"><b>結論：</b>官網不取代 IG 或 LINE，而是補上中間那段「看完 IG 還不敢傳 LINE」的斷層，並把 LINE 從人工客服變成自動化通道。</div>
+  </div>
+  </div>
+
+  <h3 id="g3"><span class="id">G-3</span>受眾與使用旅程</h3>
+  <figure class="fig">
+    <svg viewBox="0 0 1000 330" font-family="Noto Sans TC, sans-serif" font-size="12.5">
+      <g fill="#352B25">
+        <text x="20" y="30" font-size="14" letter-spacing="2">小昀的情緒曲線（第一次，怕踩雷）</text>
+        <line x1="60" y1="190" x2="980" y2="190" stroke="#D8CDC0"/>
+        <path d="M80 150C150 140 170 240 230 250S330 200 380 170S500 120 560 115S690 90 740 80S880 70 960 60" fill="none" stroke="#7E6A5C" stroke-width="2.5"/>
+        <g font-size="12" text-anchor="middle">
+          <circle cx="80" cy="150" r="6" fill="#7E6A5C"/><text x="80" y="285">看到限動</text><text x="80" y="304" fill="#968880">IG</text>
+          <circle cx="230" cy="250" r="6" fill="#A5473A"/><text x="230" y="285">爬文焦慮</text><text x="230" y="304" fill="#968880">Dcard／Google</text>
+          <circle cx="380" cy="170" r="6" fill="#7E6A5C"/><text x="380" y="285">看懂自己</text><text x="380" y="304" fill="#968880">C-05 部位地圖</text>
+          <circle cx="560" cy="115" r="6" fill="#7E6A5C"/><text x="560" y="285">知道有人陪</text><text x="560" y="304" fill="#968880">C-06 陪診的一天</text>
+          <circle cx="740" cy="80" r="6" fill="#7E6A5C"/><text x="740" y="285">三分鐘約好</text><text x="740" y="304" fill="#968880">C-08 預約</text>
+          <circle cx="960" cy="60" r="6" fill="#5F7F63"/><text x="960" y="285">被記得</text><text x="960" y="304" fill="#968880">C-12 後台</text>
+        </g>
+        <text x="236" y="236" fill="#A5473A" font-size="11.5">流失最多的低谷</text>
+        <text x="40" y="70" fill="#968880" font-size="11">安心</text><text x="40" y="255" fill="#968880" font-size="11">焦慮</text>
+      </g>
+    </svg>
+    <figcaption>圖 G-3｜每個部件都對應旅程中的一個情緒轉折。低谷「爬文焦慮」是官網最需要接住的地方。</figcaption>
+  </figure>
+  <div class="grid2">
+    <div class="card"><b class="t">🅰 小昀，26 歲・第一次</b>怕被推銷、不知道該做什麼、怕醫師不專業。<br>她要的是：<b>先看懂，再有人陪著問。</b><br><span style="color:var(--ink-3);font-size:13.5px">關鍵句：「第一次，不用自己一個人去問醫師。」</span></div>
+    <div class="card"><b class="t">🅱 Joyce，34 歲・熟客</b>每 4–6 個月固定保養，時間很碎，最討厭等 LINE 回覆。<br>她要的是：<b>三秒約好、前一天被提醒。</b><br><span style="color:var(--ink-3);font-size:13.5px">關鍵句：「你的固定時段，我們幫你記著。」</span></div>
+  </div>
+
+  <h3 id="g4"><span class="id">G-4</span>五個設計原則</h3>
+  <div class="grid3">
+    <div class="card"><b class="t">① 先規劃，再決定</b>每個頁面都不催促。主要按鈕是「預約諮詢」，不是「立即購買」。</div>
+    <div class="card"><b class="t">② 陪伴感</b>用第二人稱「你」、用時刻描述流程，讓客人感覺有人在旁邊。</div>
+    <div class="card"><b class="t">③ 可查證</b>診所地址、交通、醫師評估流程清楚寫出；示意內容都明確標示。</div>
+    <div class="card"><b class="t">④ 合規優先</b>不放價格、療效、對比照；醫療內容一律歸屬診所醫師。</div>
+    <div class="card"><b class="t">⑤ LINE 原生</b>客人本來就在 LINE，預約、提醒、改期都在 LINE 裡完成，不另外註冊。</div>
+    <div class="card"><b class="t">＋ 貝果的美感</b>延續參考圖的灰褐、光暈、軌道與星芒，讓客人一看就認得出是貝果的品牌。</div>
+  </div>
+
+  <h3 id="g5"><span class="id">G-5</span>頁面架構與情緒曲線</h3>
+  <figure class="fig">
+    <svg viewBox="0 0 1000 300" font-family="Noto Sans TC, sans-serif" font-size="12.5">
+      <g text-anchor="middle">
+        <g fill="#352B25">
+          <!-- nodes -->
+          <g><circle cx="60" cy="120" r="34" fill="#FFFDF8" stroke="#7E6A5C"/><text x="60" y="116">C-02</text><text x="60" y="133" font-size="11" fill="#655850">首屏</text></g>
+          <g><circle cx="160" cy="120" r="34" fill="#FFFDF8" stroke="#A6978A"/><text x="160" y="116">C-03</text><text x="160" y="133" font-size="11" fill="#655850">入口</text></g>
+          <g><circle cx="260" cy="120" r="34" fill="#FFFDF8" stroke="#A6978A"/><text x="260" y="116">C-04</text><text x="260" y="133" font-size="11" fill="#655850">服務</text></g>
+          <g><circle cx="360" cy="120" r="34" fill="#4E3F35"/><text x="360" y="116" fill="#FFFDF8">C-05</text><text x="360" y="133" font-size="11" fill="#D8CDC0">部位地圖</text></g>
+          <g><circle cx="460" cy="120" r="34" fill="#FFFDF8" stroke="#A6978A"/><text x="460" y="116">C-06</text><text x="460" y="133" font-size="11" fill="#655850">陪診</text></g>
+          <g><circle cx="560" cy="120" r="34" fill="#FFFDF8" stroke="#A6978A"/><text x="560" y="116">C-07</text><text x="560" y="133" font-size="11" fill="#655850">主理人</text></g>
+          <g><circle cx="660" cy="120" r="40" fill="#7E6A5C"/><text x="660" y="116" fill="#FFFDF8">C-08</text><text x="660" y="133" font-size="11" fill="#EAE4DC">預約</text></g>
+          <g><circle cx="765" cy="120" r="34" fill="#FFFDF8" stroke="#A6978A"/><text x="765" y="116">C-09</text><text x="765" y="133" font-size="11" fill="#655850">FAQ</text></g>
+          <g><circle cx="865" cy="120" r="34" fill="#FFFDF8" stroke="#A6978A"/><text x="865" y="116">C-10</text><text x="865" y="133" font-size="11" fill="#655850">邀請</text></g>
+          <g><circle cx="955" cy="120" r="28" fill="#352B25"/><text x="955" y="124" fill="#FFFDF8" font-size="11">C-11</text></g>
+        </g>
+        <g fill="#7E6A5C" font-size="13" letter-spacing="2">
+          <path d="M26 200H195" stroke="#D8CDC0" stroke-width="6" stroke-linecap="round"/><text x="110" y="230">被吸引</text>
+          <path d="M225 200H395" stroke="#C9BBAC" stroke-width="6" stroke-linecap="round"/><text x="310" y="230">看懂</text>
+          <path d="M425 200H595" stroke="#A6978A" stroke-width="6" stroke-linecap="round"/><text x="510" y="230">信任</text>
+          <path d="M625 200H700" stroke="#7E6A5C" stroke-width="6" stroke-linecap="round"/><text x="662" y="230">行動</text>
+          <path d="M730 200H985" stroke="#C9BBAC" stroke-width="6" stroke-linecap="round"/><text x="858" y="230">消除最後疑慮</text>
+        </g>
+        <text x="500" y="280" font-size="12" fill="#968880">每一段都有「預約諮詢」出口：導覽列常駐按鈕、C-03 第三格、C-05 卡片、C-08、C-10</text>
+      </g>
+    </svg>
+    <figcaption>圖 G-5｜單頁長捲動架構。順序依「被吸引 → 看懂 → 信任 → 行動 → 消除疑慮」排列。</figcaption>
+  </figure>
+  <p><b>為什麼是單頁長捲動？</b> 主要流量來自 IG 的手機用戶，習慣往下滑，而不是點選單換頁。單頁讓故事不中斷，也讓「預約」永遠在下一次滑動就看得到。未來部位衛教文章（SEO）可另開子頁，不影響主頁敘事。</p>
+</section>
+
+<!-- DESIGN SYSTEM -->
+<section class="part" id="system">
+  <div class="part-no">02</div>
+  <h2>設計系統：讓每個部件說同一種語言</h2>
+  <p class="lead">部件規劃之前，先定規則。這套規則來自貝果提供的參考圖，加上楷娜自己的品牌概念。</p>
+
+  <h3 id="d1"><span class="id">D-1</span>核心概念：圓</h3>
+  <div class="grid2">
+    <figure class="fig">
+      <svg viewBox="0 0 420 300" font-family="Noto Sans TC, sans-serif" font-size="12.5">
+        <defs><radialGradient id="dg" cx=".38" cy=".3"><stop offset="0" stop-color="#FFFDF8"/><stop offset=".6" stop-color="#D8CDC0"/><stop offset="1" stop-color="#A6978A"/></radialGradient></defs>
+        <circle cx="140" cy="150" r="80" fill="url(#dg)"/>
+        <ellipse cx="140" cy="150" rx="128" ry="50" fill="none" stroke="#7E6A5C" transform="rotate(-22 140 150)"/>
+        <path d="M238 70l3.5 10.5 10.5 3.5-10.5 3.5-3.5 10.5-3.5-10.5-10.5-3.5 10.5-3.5z" fill="#7E6A5C"/>
+        <g fill="#352B25"><text x="290" y="96">● 光球＝你</text><text x="290" y="136">◯ 軌道＝團隊陪在身邊</text><text x="290" y="176">✦ 星芒＝做決定的那一刻</text></g>
+      </svg>
+      <figcaption>圖 D-1｜光球、軌道、星芒是全站的三個基本元素。</figcaption>
+    </figure>
+    <div>
+      <h4>為什麼用圓</h4>
+      <ul class="dot">
+        <li><b>來自貝果的參考圖</b>：參考圖的按鈕是圓角膠囊，標題外圍有細線橢圓和星芒，光暈也是圓形。延續它，客人一眼就認得出是貝果的品牌。</li>
+        <li><b>呼應楷娜的服務</b>：「規劃」是完整的一圈，「陪診」是團隊像軌道一樣環繞在客人身邊，不擋在前面。</li>
+        <li><b>醫美語境的溫和感</b>：沒有尖角、沒有強對比色，降低醫療場景的緊張感。</li>
+      </ul>
+      <h4>應用在哪裡</h4>
+      <p style="font-size:14px">首屏圓形主圖與三條軌道、三入口的橢圓標籤、服務的三顆光球、部位地圖的聚焦光圈、陪診時鐘圓窗、主理人圓形照片、預約的圓形選項、FAQ 圓形展開鈕、後台的數據圓環。</p>
+    </div>
+  </div>
+
+  <h3 id="d2"><span class="id">D-2</span>色彩</h3>
+  <div class="swatch">
+    <div><i style="background:#EFEBE5"></i><b>紙白 Paper</b><small>#EFEBE5</small></div>
+    <div><i style="background:#D8CDC0"></i><b>沙 Sand</b><small>#D8CDC0</small></div>
+    <div><i style="background:#A6978A"></i><b>灰褐 Taupe</b><small>#A6978A・主按鈕</small></div>
+    <div><i style="background:#7E6A5C"></i><b>摩卡 Mocha</b><small>#7E6A5C・強調</small></div>
+    <div><i style="background:#4E3F35"></i><b>可可 Cocoa</b><small>#4E3F35・深色區</small></div>
+    <div><i style="background:#352B25"></i><b>墨 Ink</b><small>#352B25・文字</small></div>
+    <div><i style="background:#FFFDF8"></i><b>光 Glow</b><small>#FFFDF8・光暈</small></div>
+    <div><i style="background:#06C755"></i><b>LINE 綠</b><small>#06C755・只用於 LINE</small></div>
+  </div>
+  <p style="margin-top:14px"><b>為什麼：</b>色系直接取自參考圖。刻意不用粉紅、玫瑰色這類醫美常見色，讓楷娜看起來更沉穩、更像「顧問」而不是「促銷」。LINE 綠只出現在 LINE 相關元素上，讓客人一看就知道「這裡會開 LINE」。</p>
+
+  <h3 id="d3"><span class="id">D-3</span>字體</h3>
+  <div class="grid3">
+    <div class="card"><span style="font-family:var(--serif);font-size:30px;letter-spacing:.12em">先規劃，再決定。</span><br><small style="color:var(--ink-3)">Noto Serif TC・標題・情緒句</small></div>
+    <div class="card"><span style="font-family:var(--latin);font-style:italic;font-size:28px;letter-spacing:.08em">Online Booking</span><br><small style="color:var(--ink-3)">Cormorant Garamond・英文副標（同參考圖）</small></div>
+    <div class="card"><span style="letter-spacing:.32em;font-size:17px">線 上 預 約</span><br><small style="color:var(--ink-3)">Noto Sans TC・寬字距標籤與按鈕（同參考圖）</small></div>
+  </div>
+  <p><b>為什麼：</b>中文襯線體帶來雜誌感與溫度；英文 Cormorant 與參考圖的 “Aesthetic Portfolio” 同一路線；寬字距的按鈕文字直接延續參考圖的膠囊按鈕。三種字體全部來自 Google Fonts，免費可商用。</p>
+
+  <h3 id="d4"><span class="id">D-4</span>圖像與 Codex 主視覺</h3>
+  <div class="grid2">
+    <div>
+      <p>5 張主視覺由 Codex 生成，提示詞固定同一段風格後綴：灰褐、沙色、象牙白，柔焦光暈、稜鏡光斑、水平光線、底片顆粒。</p>
+      <ul class="dot">
+        <li><b>石膏像而不是真人</b>：避免「看起來像療效示範」，也不會有肖像權問題。</li>
+        <li><b>沒有術前術後</b>：所有圖像都是氛圍，不是效果。</li>
+        <li><b>預留文字空間</b>：每張圖的提示詞都寫明哪一側要留白給文字。</li>
+      </ul>
+      <div class="note">正式上線建議：主理人區（C-07）必須換成貝果本人照片；陪診區可加入真實陪診花絮（客人同意後）。主視覺 AI 生成需在頁尾註明。</div>
+    </div>
+    <div class="grid2" style="gap:10px">
+      <div class="shot"><img src="../assets/hero.jpg" alt="首屏主視覺：石膏像與光球"></div>
+      <div class="shot"><img src="../assets/map.jpg" alt="深色絲綢"></div>
+      <div class="shot"><img src="../assets/consult.jpg" alt="諮詢桌"></div>
+      <div class="shot"><img src="../assets/cta.jpg" alt="葉影牆面"></div>
+    </div>
+  </div>
+
+  <h3 id="d5"><span class="id">D-5</span>動態原則</h3>
+  <div class="tw"><table>
+    <tr><th>動態</th><th>在哪裡</th><th>為什麼</th></tr>
+    <tr><td>即時渲染光場（WebGL）</td><td>首屏背景</td><td>光球緩慢漂移並跟著滑鼠，重現參考圖的光暈，讓頁面「活著」但不吵。</td></tr>
+    <tr><td>軌道慢速旋轉、星芒閃爍</td><td>全站圓形元素</td><td>60–120 秒轉一圈，幾乎感覺不到，只留下「有人在環繞」的氛圍。</td></tr>
+    <tr><td>標題逐字浮現</td><td>首屏、主理人引言</td><td>像有人慢慢對你說話，配合「不急」的品牌節奏。</td></tr>
+    <tr><td>線條臉譜逐筆畫出</td><td>C-05 部位地圖</td><td>把注意力引到臉上，再引到可點的部位。</td></tr>
+    <tr><td>時間軸隨捲動填滿、時鐘切換</td><td>C-06 陪診的一天</td><td>讓客人「走過」一次陪診的時間流。</td></tr>
+    <tr><td>游標柔光、按鈕掃光與吸附</td><td>桌機</td><td>增加精緻感；手機上自動關閉。</td></tr>
+  </table></div>
+  <p><b>節制規則：</b>所有動態都用同一條緩出曲線，不彈跳、不閃爍；系統開啟「減少動態」時全部停用；畫面不在視窗內時光場暫停，省電也不拖慢手機。</p>
+</section>
+
+<!-- COMPONENTS -->
+<section class="part" id="components">
+  <div class="part-no">03</div>
+  <h2>部件規劃</h2>
+  <p class="lead">每個部件都用同一個格式說明：<b>目的</b>、<b>為什麼這樣設計</b>、<b>功能優勢</b>、<b>需要的素材</b>、<b>可以討論的地方</b>。截圖為提案原型實際畫面。</p>
+
+  <div class="comp" id="c01"><div class="shot"><img src="img/01_hero.jpg" alt="導覽列與首屏"></div><div>
+    <h3><span class="id">C-01</span>導覽列</h3>
+    <div class="row"><b>目的</b><p>任何時候都能一鍵預約，也能跳到想看的段落。</p></div>
+    <div class="row why"><b>為什麼</b><p>Logo 是光球加一條軌道與星芒，把 D-1 的概念縮成一個符號。右側「預約諮詢」是全站唯一常駐的實心按鈕。捲動後才出現毛玻璃底，首屏保持乾淨。</p></div>
+    <div class="row adv"><b>功能優勢</b><ul class="dot"><li>預約入口永遠在拇指範圍內</li><li>選單用「服務／部位地圖／陪診的一天／主理人／第一次」等客人的語言，不用「關於我們」這類公司語言</li></ul></div>
+    <div class="row need"><b>素材</b><p>正式 Logo（目前是提案示意符號）。</p></div>
+    <div class="row talk"><b>待討論</b><ul><li>Logo 要沿用示意還是另外設計？</li><li>手機版要不要加漢堡選單？（目前只留預約按鈕）</li></ul></div>
+  </div></div>
+
+  <div class="comp" id="c02"><div class="shot"><img src="img/01_hero.jpg" alt="首屏主視覺"></div><div>
+    <h3><span class="id">C-02</span>首屏主視覺</h3>
+    <div class="row"><b>目的</b><p>三秒內讓客人知道：楷娜是誰、和一般醫美有什麼不同、下一步做什麼。</p></div>
+    <div class="row why"><b>為什麼</b><p>標語「先規劃，再決定。」直接回應第一次的人最大的恐懼：被推銷。右側的圓形主圖加上三條軌道，是整個品牌概念的第一次完整呈現。兩張玻璃資訊卡（「週四 14:30 還有空位」「陪診員已安排」）在第一眼就預告了預約與陪診兩個核心功能。</p></div>
+    <div class="row adv"><b>功能優勢</b><ul class="dot"><li>主要、次要兩個按鈕：準備好的人直接預約，還在猶豫的人去看陪診流程</li><li>底部的合作診所與捷運站標籤，先建立「可查證」的信任</li><li>背景光場即時渲染，不用載入大型影片檔</li></ul></div>
+    <div class="row need"><b>素材</b><p>主視覺圖（已由 Codex 生成）；可替換成真實拍攝。</p></div>
+    <div class="row talk"><b>待討論</b><ul><li>標語是否採用「先規劃，再決定。」</li><li>資訊卡要接真實空位資料，還是維持氛圍示意？</li></ul></div>
+  </div></div>
+
+  <div class="comp" id="c03"><div class="shot"><img src="img/02_portals.jpg" alt="三個入口"></div><div>
+    <h3><span class="id">C-03</span>三個入口</h3>
+    <div class="row"><b>目的</b><p>給不想從頭看完的人三條捷徑：部位地圖、陪診服務、線上預約。</p></div>
+    <div class="row why"><b>為什麼</b><p>這是對貝果參考圖下半部（觀看作品集／追蹤官方 IG／線上預約）的致敬：三格滿版質感圖、寬字距中文、英文副標、橢圓與星芒。貝果會在第一頁就看到她熟悉的語彙，提案接受度更高。</p></div>
+    <div class="row adv"><b>功能優勢</b><ul class="dot"><li>滑鼠移上去時背景微放大、軌道微轉，提示可點</li><li>手機上自動變成上下三格</li></ul></div>
+    <div class="row need"><b>素材</b><p>三張質感圖（已生成）。</p></div>
+    <div class="row talk"><b>待討論</b><ul><li>三個入口是否改成參考圖原本的「作品集／IG／預約」？（作品集涉及對比照，需特別注意合規）</li></ul></div>
+  </div></div>
+
+  <div class="comp" id="c04"><div class="shot"><img src="img/03_services.jpg" alt="服務介紹"></div><div>
+    <h3><span class="id">C-04</span>服務介紹：三顆光球</h3>
+    <div class="row"><b>目的</b><p>一句話說清楚楷娜做什麼、不做什麼。</p></div>
+    <div class="row why"><b>為什麼</b><p>標題「我們不賣療程，我們陪你做決定。」同時是定位宣言和合規宣言。三個服務（顏值規劃、診間陪診、回訪關心）剛好對應客人的「之前、當天、之後」，用三顆光球呈現，每顆的軌道角度不同，象徵每個階段的陪伴方式不同。</p></div>
+    <div class="row adv"><b>功能優勢</b><ul class="dot"><li>把「陪診」從 IG 精選動態裡的碎片，變成正式、可說明的服務</li><li>每個服務列出三個具體動作，讓客人知道實際會發生什麼</li></ul></div>
+    <div class="row need"><b>素材</b><p>無需額外素材。</p></div>
+    <div class="row talk"><b>待討論</b><ul><li>陪診是否收費？是否所有客人都能申請？</li><li>三個服務名稱是否符合團隊內部的叫法</li></ul></div>
+  </div></div>
+
+  <div class="comp" id="c05"><div class="shot"><img src="img/04_map.jpg" alt="部位地圖"></div><div>
+    <h3><span class="id">C-05</span>部位地圖（互動）</h3>
+    <div class="row"><b>目的</b><p>讓還說不清楚自己要什麼的人，點一下就看懂，並帶著問題去諮詢。</p></div>
+    <div class="row why"><b>為什麼</b><p>楷娜的精選動態本來就是依部位分類（眼窩、淚溝、蘋果肌、法令紋、鼻、全臉），客人也習慣用部位描述困擾。線條臉譜比真人照片中性、不帶療效暗示。每張卡片只寫「常見的在意、醫師評估時會看什麼、諮詢時可以這樣問」，是衛教，不是推療程。</p></div>
+    <div class="row adv"><b>功能優勢</b><ul class="dot"><li>點臉上的點或下方標籤都可以切換；聚焦光圈會移到該部位</li><li>卡片底部「預約這個部位的諮詢」會把部位自動帶入預約流程第一步</li><li>每個部位未來可延伸成一篇 SEO 衛教文章（社群內容策略師的 A10 切角）</li><li>深色背景在整頁淺色中形成節奏變化，讓這段成為記憶點</li></ul></div>
+    <div class="row need"><b>素材</b><p>每個部位的衛教文字需由診所醫師審閱並具名。</p></div>
+    <div class="row talk"><b>待討論</b><ul><li>部位清單是否要增減（例如下巴、額頭、電音波）</li><li>審閱醫師願不願意具名</li></ul></div>
+  </div></div>
+
+  <div class="comp" id="c06"><div class="shot"><img src="img/05_day.jpg" alt="陪診的一天"></div><div>
+    <h3><span class="id">C-06</span>陪診的一天</h3>
+    <div class="row"><b>目的</b><p>接住旅程中最低的那個點：「我一個人不敢去」。</p></div>
+    <div class="row why"><b>為什麼</b><p>直接來自受眾畫像師的 Persona「小昀」。與其說「我們提供陪診服務」，不如讓她「走過」一次：前一晚提醒、門口等你、一起見醫師、不急著決定、回家後關心、下次記得你。左側圓窗裡的大時鐘會隨捲動切換，是整頁最有電影感的段落。</p></div>
+    <div class="row adv"><b>功能優勢</b><ul class="dot"><li>六個時刻中有三個（提醒、回訪、記得你）是預約系統自動完成的，間接展示系統價值</li><li>捲動時時間軸逐點亮起，閱讀有進度感</li></ul></div>
+    <div class="row need"><b>素材</b><p>可替換為真實陪診照片（需客人同意，或只拍環境不拍臉）。</p></div>
+    <div class="row talk"><b>待討論</b><ul><li>實際陪診流程與時間點是否符合現況</li><li>陪診員是否露出名字與照片</li></ul></div>
+  </div></div>
+
+  <div class="comp" id="c07"><div class="shot"><img src="img/06_founder.jpg" alt="主理人"></div><div>
+    <h3><span class="id">C-07</span>主理人</h3>
+    <div class="row"><b>目的</b><p>把 IG 上 2.2 萬人認識的「貝果」，接到「楷娜」這個品牌上。</p></div>
+    <div class="row why"><b>為什麼</b><p>策略分析的核心發現：真正的品牌資產是貝果本人。這區放她的一句話和成立楷娜的原因，讓從貝果 IG 來的人感到熟悉，也讓新客認識她。照片用圓框加軌道，和全站一致。</p></div>
+    <div class="row adv"><b>功能優勢</b><ul class="dot"><li>建立「人」的信任，彌補官網冷冰冰的感覺</li><li>未來可加「追蹤貝果 IG」連結，形成雙向導流</li></ul></div>
+    <div class="row need"><b>素材</b><p><b>必要：</b>貝果本人照片；她親口確認的引言。</p></div>
+    <div class="row talk"><b>待討論</b><ul><li>引言內容（目前為提案示意）</li><li>「十年醫美經驗」是否要放，以及怎麼寫才不構成誇大宣稱</li></ul></div>
+  </div></div>
+
+  <div class="comp" id="c08"><div class="shot"><img src="img/07_booking.jpg" alt="線上預約"></div><div>
+    <h3><span class="id">C-08</span>線上預約（核心功能）</h3>
+    <div class="row"><b>目的</b><p>貝果最重視的功能：讓客人自己三分鐘約好，不用等人回 LINE。</p></div>
+    <div class="row why"><b>為什麼</b><p>直接在官網上放一支可以操作的手機，示範「在 LINE 裡預約」的真實流程，比任何文字說明都有說服力。四步驟依序是：想聊的部位 → 門診與醫師 → 日期時段 → 稱呼、手機、陪診與個資同意。預約的是「諮詢門診」，不是療程。</p></div>
+    <div class="row adv"><b>功能優勢</b><ul class="dot"><li><b>LINE 原生</b>：用 LINE LIFF 開在 LINE 裡，免註冊、免密碼</li><li><b>只顯示真的有空的時段</b>：與醫師排班同步</li><li><b>自動提醒</b>：前一晚 20:00 LINE 推播，降低爽約</li><li><b>自助改期取消</b>：確認訊息裡直接按</li><li><b>熟客一鍵再約</b>：帶入上次醫師與部位（二期）</li><li><b>少收資料</b>：只收稱呼與手機，健康資料留在診所</li><li>從 C-05 點進來會自動帶入部位</li></ul></div>
+    <div class="row need"><b>素材</b><p>醫師名單與排班規則、諮詢時長、可預約時段、LINE 官方帳號管理權限。</p></div>
+    <div class="row talk"><b>待討論</b><ul><li>是否收訂金（建議先不收）</li><li>改期、取消的截止時間</li><li>一個時段可約幾人</li></ul></div>
+  </div></div>
+  <div class="grid2" style="margin:-4px 0 10px"><div class="shot"><img src="img/07b_booking_done.jpg" alt="預約完成的 LINE 確認訊息"></div><p style="font-size:14px;color:var(--ink-2);align-self:center">↖ 預約完成畫面：模擬 LINE 確認訊息，含改期、取消、加入行事曆三個按鈕，第二則訊息以陪診員口吻提醒。</p></div>
+
+  <div class="comp" id="c09"><div class="shot"><img src="img/08_faq.jpg" alt="常見問題"></div><div>
+    <h3><span class="id">C-09</span>常見問題</h3>
+    <div class="row"><b>目的</b><p>在按下預約前，消除最後的疑慮。</p></div>
+    <div class="row why"><b>為什麼</b><p>五個問題都來自 Persona 的痛點：會不會被推銷、陪診員是不是醫護、能不能改期、資料怎麼用、一定要做療程嗎。第二題同時是合規說明：陪診員不做醫療判斷。</p></div>
+    <div class="row adv"><b>功能優勢</b><ul class="dot"><li>預設展開第一題，客人不用點也能看到最關鍵的回答</li><li>未來可加入 FAQ 結構化資料，讓 Google 搜尋結果直接顯示</li></ul></div>
+    <div class="row need"><b>素材</b><p>團隊確認每題答案。</p></div>
+    <div class="row talk"><b>待討論</b><ul><li>LINE 上最常被問的前五題是什麼？應以實際紀錄為準</li></ul></div>
+  </div></div>
+
+  <div class="comp" id="c10"><div class="shot"><img src="img/09_final.jpg" alt="結尾邀請"></div><div>
+    <h3><span class="id">C-10</span>結尾邀請</h3>
+    <div class="row"><b>目的</b><p>給看完全部、還沒行動的人最後一次溫和的邀請。</p></div>
+    <div class="row why"><b>為什麼</b><p>「先聊聊，不用急著決定。」降低行動門檻。背景是葉影光線牆面，象徵新的開始；標題被一個大圓與軌道框住，呼應首屏，讓整頁首尾相連成一個圓。</p></div>
+    <div class="row adv"><b>功能優勢</b><ul class="dot"><li>不放任何優惠或倒數，避免醫療法第 61 條的招攬疑慮</li></ul></div>
+    <div class="row need"><b>素材</b><p>無。</p></div>
+    <div class="row talk"><b>待討論</b><ul><li>是否加一個「先加 LINE 好友」的次要選項，給還不想預約的人</li></ul></div>
+  </div></div>
+
+  <div class="comp" id="c11"><div class="shot"><img src="img/10_footer.jpg" alt="頁尾"></div><div>
+    <h3><span class="id">C-11</span>頁尾與合規聲明</h3>
+    <div class="row"><b>目的</b><p>提供聯繫資訊與合作診所資訊，並清楚聲明網站性質。</p></div>
+    <div class="row why"><b>為什麼</b><p>依先前確認的定位：團隊隸屬於診所，但網站是團隊自己的，不能被誤認為診所官網。頁尾固定寫明：本網站為楷娜團隊服務介紹，並非醫療機構官網；醫療評估與處置由緹爾思醫美診所合格醫師執行；部位說明為一般衛教。</p></div>
+    <div class="row adv"><b>功能優勢</b><ul class="dot"><li>降低醫療廣告認定風險（仍需律師確認）</li><li>診所地址與交通讓客人可以查證</li></ul></div>
+    <div class="row need"><b>素材</b><p>隱私權政策、個資告知全文（需律師審閱）、服務時間。</p></div>
+    <div class="row talk"><b>待討論</b><ul><li>聲明文字是否需要診所端同意</li></ul></div>
+  </div></div>
+
+  <div class="comp" id="c12"><div class="shot"><img src="img/11_admin.jpg" alt="團隊後台"></div><div>
+    <h3><span class="id">C-12</span>團隊預約後台</h3>
+    <div class="row"><b>目的</b><p>把貝果和團隊從 LINE 人工排程中解放出來。</p></div>
+    <div class="row why"><b>為什麼</b><p>預約系統真正的價值在後台：前台再漂亮，如果團隊還是要手動整理，就沒有解決貝果的問題。後台沿用同一套色彩與圓形元素，讓團隊每天用起來也舒服。</p></div>
+    <div class="row adv"><b>功能優勢</b><ul class="dot"><li>週行事曆，狀態以顏色區分：已確認、待確認、已報到、爽約</li><li>點預約看詳情，一鍵確認、報到、改期、標記爽約</li><li>「待指派陪診」清單，選人後自動通知客人</li><li>上方四個數據圓環：本週預約、確認率、陪診指派率、初診客</li><li>手動新增：從 LINE 對話來的客人也能補登</li><li>角色權限：主理人看全部，陪診員只看自己被指派的</li></ul></div>
+    <div class="row need"><b>素材</b><p>團隊成員名單與角色。</p></div>
+    <div class="row talk"><b>待討論</b><ul><li>需要日檢視、月檢視嗎？（原型先示範週檢視）</li><li>要不要和診所既有掛號系統串接</li></ul></div>
+  </div></div>
+
+  <div class="comp" id="c13" style="grid-template-columns:1fr 1.2fr"><div class="grid3" style="gap:8px"><div class="shot"><img src="img/12_mobile_hero.jpg" alt="手機版首屏"></div><div class="shot"><img src="img/13_mobile_map.jpg" alt="手機版部位地圖"></div><div class="shot"><img src="img/14_mobile_admin.jpg" alt="手機版後台"></div></div><div>
+    <h3><span class="id">C-13</span>手機版</h3>
+    <div class="row"><b>目的</b><p>主要客人從 IG 進來，用的是手機。</p></div>
+    <div class="row why"><b>為什麼</b><p>手機版不是縮小的桌機版：首屏改成上下排列，三入口改成直向三格，部位地圖的卡片放在臉譜下方，預約手機框拿掉直接變成全寬流程。後台在手機上側欄變成橫向捲動標籤，行事曆可橫向滑動，因為貝果多半用手機作業。</p></div>
+    <div class="row adv"><b>功能優勢</b><ul class="dot"><li>已在 375px 寬度檢查，無橫向捲動</li><li>手機上關閉游標光暈與按鈕吸附效果，省電也不干擾操作</li></ul></div>
+    <div class="row talk"><b>待討論</b><ul><li>手機上是否加一個固定在底部的「預約」按鈕</li></ul></div>
+  </div></div>
+</section>
+
+<!-- SYSTEM -->
+<section class="part" id="sys">
+  <div class="part-no">04</div>
+  <h2>系統與執行</h2>
+
+  <h3 id="s1"><span class="id">S-1</span>預約系統架構</h3>
+  <figure class="fig">
+    <svg viewBox="0 0 1000 260" font-family="Noto Sans TC, sans-serif" font-size="13" text-anchor="middle">
+      <defs><marker id="a2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#7E6A5C"/></marker></defs>
+      <g fill="#352B25">
+        <rect x="20" y="80" width="150" height="90" rx="45" fill="#FFFDF8" stroke="#A6978A"/><text x="95" y="120">官網／IG</text><text x="95" y="140" font-size="11" fill="#655850">「預約諮詢」按鈕</text>
+        <rect x="220" y="80" width="170" height="90" rx="45" fill="#E3F6EA" stroke="#06C755"/><text x="305" y="120">LINE LIFF</text><text x="305" y="140" font-size="11" fill="#655850">四步驟預約・一鍵登入</text>
+        <circle cx="500" cy="125" r="62" fill="#7E6A5C"/><text x="500" y="120" fill="#FFFDF8">預約資料庫</text><text x="500" y="140" font-size="11" fill="#EAE4DC">排班・預約・客人</text>
+        <rect x="620" y="30" width="170" height="80" rx="40" fill="#FFFDF8" stroke="#A6978A"/><text x="705" y="66">團隊後台</text><text x="705" y="86" font-size="11" fill="#655850">行事曆・指派・狀態</text>
+        <rect x="620" y="150" width="170" height="80" rx="40" fill="#E3F6EA" stroke="#06C755"/><text x="705" y="186">LINE 推播</text><text x="705" y="206" font-size="11" fill="#655850">確認・提醒・改期</text>
+        <circle cx="900" cy="190" r="48" fill="#EAE4DC" stroke="#A6978A"/><text x="900" y="186">客人</text><text x="900" y="204" font-size="11" fill="#655850">前一晚 20:00</text>
+        <path d="M170 125H215M390 125H434M560 105L615 75M560 145L615 180M790 190H848" stroke="#7E6A5C" fill="none" marker-end="url(#a2)"/>
+      </g>
+    </svg>
+    <figcaption>圖 S-1｜候選技術：Next.js（官網與 LIFF）＋ Supabase（資料庫與權限）＋ LINE Messaging API（推播）。實際選型待報價前評估，未拍板。</figcaption>
+  </figure>
+  <div class="tw"><table>
+    <tr><th>比較</th><th>現況：LINE 人工</th><th>導入後</th></tr>
+    <tr><td>客人約一次要多久</td><td>傳訊息後等回覆，時間不定</td><td>自助完成，約三分鐘</td></tr>
+    <tr><td>排程</td><td>靠記憶與聊天紀錄</td><td>後台行事曆集中管理</td></tr>
+    <tr><td>提醒</td><td>人工傳或沒傳</td><td>自動推播</td></tr>
+    <tr><td>熟客資料</td><td>散在對話裡</td><td>客人資料卡：偏好醫師、部位、歷史</td></tr>
+    <tr><td>陪診指派</td><td>口頭分配</td><td>後台指派並自動通知客人</td></tr>
+    <tr><td>數據</td><td>沒有</td><td>預約量、確認率、爽約率、熱門部位</td></tr>
+  </table></div>
+  <p style="font-size:13px;color:var(--ink-3)">導入後的效益需上線後以實際數據驗證；目前尚無現況基準數字（每月詢問量、爽約率），需向貝果取得。</p>
+
+  <h3 id="s2"><span class="id">S-2</span>合規設計對照</h3>
+  <div class="tw"><table>
+    <tr><th>風險</th><th>相關規範</th><th>網站上的做法</th></tr>
+    <tr><td>非醫療機構刊登醫療廣告</td><td>醫療法第 84、87 條</td><td>網站定位為團隊服務介紹；醫療內容歸屬診所醫師；頁尾固定聲明（C-11）</td></tr>
+    <tr><td>不正當招攬</td><td>醫療法第 61 條、衛福部公告禁止態樣</td><td>不放價格、折扣、贈品、倒數；預約的是諮詢，不是療程（C-08、C-10）</td></tr>
+    <tr><td>誇大或療效暗示</td><td>醫療廣告相關規範</td><td>不用「權威」「保證」；不放術前術後對比；主視覺用石膏像（D-4）</td></tr>
+    <tr><td>個資與特種個資</td><td>個人資料保護法</td><td>預約只收稱呼與手機；健康資料留在診所；個資告知必勾（C-08）</td></tr>
+    <tr><td>跨境醫療仲介</td><td>2025/12 衛福部公開表示違法</td><td>上海線與公關抽成完全不出現在網站</td></tr>
+  </table></div>
+  <div class="note">以上為依公開資料整理的設計做法，不是法律意見。正式上線前請律師審閱網站全文與隱私權政策。</div>
+
+  <h3 id="s3"><span class="id">S-3</span>技術、效能與無障礙</h3>
+  <div class="grid3">
+    <div class="card"><b class="t">效能</b>主視覺轉為網頁用 JPG（約 240–610KB）；光場用 GPU 即時渲染取代影片；畫面外自動暫停。正式版再加圖片延遲載入與 WebP。</div>
+    <div class="card"><b class="t">無障礙</b>部位地圖可用鍵盤操作；按鈕有文字標籤；「減少動態」設定下停用所有動畫；文字與背景維持足夠對比。</div>
+    <div class="card"><b class="t">SEO</b>單頁主站＋未來部位衛教子頁；FAQ 結構化資料；頁面標題與描述已設定。</div>
+  </div>
+
+  <h3 id="s4"><span class="id">S-4</span>時程</h3>
+  <div class="tw"><table>
+    <tr><th>階段</th><th>內容</th><th>估計</th></tr>
+    <tr><td>1</td><td>需求訪談、流程與文案定稿</td><td>1 週</td></tr>
+    <tr><td>2</td><td>設計定稿（以本原型為基礎修改）</td><td>1–2 週</td></tr>
+    <tr><td>3</td><td>開發：官網、LIFF 預約、後台、推播</td><td>4–5 週</td></tr>
+    <tr><td>4</td><td>團隊內測、修正、上線</td><td>1–2 週</td></tr>
+  </table></div>
+  <p><span class="status">時程與範圍為建議案・未拍板</span></p>
+</section>
+
+<!-- TALK -->
+<section class="part" id="talk">
+  <div class="part-no">05</div>
+  <h2>待討論與修改清單</h2>
+  <p class="lead">討論時請引用編號。勾選或備註後回傳，我們依此修改原型。</p>
+  <div class="tw"><table>
+    <tr><th>編號</th><th>問題</th><th>影響部件</th><th>優先</th></tr>
+    <tr><td>T-01</td><td>標語是否採用「先規劃，再決定。」</td><td>C-02、C-10</td><td>高</td></tr>
+    <tr><td>T-02</td><td>醫師名單、排班、諮詢時長、每時段人數</td><td>C-08、C-12</td><td>高</td></tr>
+    <tr><td>T-03</td><td>陪診是否收費、誰可以申請、陪診員是否露名</td><td>C-04、C-06</td><td>高</td></tr>
+    <tr><td>T-04</td><td>是否收訂金；改期與取消的截止時間</td><td>C-08</td><td>高</td></tr>
+    <tr><td>T-05</td><td>貝果照片與親口確認的引言</td><td>C-07</td><td>高</td></tr>
+    <tr><td>T-06</td><td>部位清單增減；審閱醫師是否具名</td><td>C-05</td><td>中</td></tr>
+    <tr><td>T-07</td><td>三個入口是否改為參考圖的作品集／IG／預約</td><td>C-03</td><td>中</td></tr>
+    <tr><td>T-08</td><td>Logo：沿用示意或另行設計</td><td>C-01</td><td>中</td></tr>
+    <tr><td>T-09</td><td>LINE 最常被問的前五題</td><td>C-09</td><td>中</td></tr>
+    <tr><td>T-10</td><td>頁尾聲明是否需診所端同意；律師審閱</td><td>C-11、S-2</td><td>高</td></tr>
+    <tr><td>T-11</td><td>現況基準數字：每月詢問量、預約量、爽約率</td><td>S-1</td><td>中</td></tr>
+    <tr><td>T-12</td><td>登入 IG，正式重跑特攻隊分析校正受眾與語氣</td><td>全站文案</td><td>中</td></tr>
+  </table></div>
+</section>
+
+<section class="part" id="log" style="border-bottom:0">
+  <h2>版本紀錄</h2>
+  <div class="tw"><table>
+    <tr><th>版本</th><th>日期</th><th>內容</th></tr>
+    <tr><td>v0.1</td><td>2026-11-25</td><td>初版：全局視角、設計系統、13 個部件規劃、系統與合規、討論清單</td></tr>
+  </table></div>
+  <p class="foot">優點整合行銷・內部草稿｜主視覺 AI 生成（Codex）｜醫師、時段與部分文案為示意，未拍板｜法規內容為公開資料整理，非法律意見</p>
+</section>
+</main>
+</div>
+<script>
+const links=[...document.querySelectorAll("nav.toc a")],secs=links.map(a=>document.querySelector(a.getAttribute("href"))).filter(Boolean);
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){links.forEach(a=>a.classList.toggle("on",a.getAttribute("href")==="#"+e.target.id))}}),{rootMargin:"-10% 0px -80% 0px"});
+secs.forEach(s=>io.observe(s));
+</script>
+</body>
+</html>
